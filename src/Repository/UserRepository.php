@@ -22,11 +22,11 @@ class UserRepository extends DoctrineEntityRepositoryAbstract implements UserRep
      * @return User
      * @throws OAuthServerException
      */
-    public function getUser(string $username, string $group): User
+    public function getUser(string $username, int $organizationId): User
     {
         $filter = [
-            'email'      => $username,
-            'group'      => $group,
+            'login'             => $username,
+            'organizationId'    => $organizationId,
         ];
         $user = $this->findOneBy($filter);
         if (!$user instanceof User) {
@@ -58,7 +58,7 @@ class UserRepository extends DoctrineEntityRepositoryAbstract implements UserRep
         $userCredentials = explode(User::ID_SEPARATOR, $username);
         if (count($userCredentials) == 2) {
             list($username, $organizationId) = $userCredentials;
-            return $this->getUser($username, $organizationId);
+            return $this->getUser($username, (int)$organizationId);
         }
 
         throw OAuthServerException::accessDenied('No user with supplied credentials could be found');
