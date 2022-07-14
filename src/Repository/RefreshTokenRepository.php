@@ -63,7 +63,7 @@ class RefreshTokenRepository extends DoctrineEntityRepositoryAbstract implements
     public function isRefreshTokenRevoked($tokenId): bool
     {
         if ($refreshToken = $this->findOneBy(['refreshToken' => $tokenId])) {
-            return $refreshToken->getRevoked();
+            return $refreshToken->isRevoked();
         }
 
         return false;

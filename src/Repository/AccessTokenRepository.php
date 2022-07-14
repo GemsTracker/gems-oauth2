@@ -90,7 +90,7 @@ class AccessTokenRepository extends DoctrineEntityRepositoryAbstract implements 
     public function isAccessTokenRevoked($tokenId): bool
     {
         if ($accessToken = $this->findOneBy(['accessToken' => $tokenId])) {
-            return $accessToken->getRevoked();
+            return $accessToken->isRevoked();
         }
 
         return false;

@@ -86,7 +86,7 @@ class AuthCodeRepository extends DoctrineEntityRepositoryAbstract implements Aut
         ];
 
         if ($authCode = $this->findOneBy($filter)) {
-            return $authCode->getRevoked();
+            return $authCode->isRevoked();
         }
 
         return false;

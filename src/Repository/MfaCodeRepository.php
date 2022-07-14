@@ -75,7 +75,7 @@ class MfaCodeRepository extends DoctrineEntityRepositoryAbstract implements MfaC
     public function isMfaCodeRevoked($codeId): bool
     {
         if ($mfaToken = $this->findOneBy(['id' => $codeId])) {
-            return $mfaToken->getRevoked();
+            return $mfaToken->isRevoked();
         }
 
         return false;
