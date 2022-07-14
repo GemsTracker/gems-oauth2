@@ -23,7 +23,7 @@ class Scopes extends AbstractSeed
             ]
         ];
 
-        $table = $this->table('oauth_scopes');
+        $table = $this->table('gems__oauth_scopes');
         $table->insert($data)
             ->saveData();
     }
