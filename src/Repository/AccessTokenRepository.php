@@ -48,7 +48,7 @@ class AccessTokenRepository extends DoctrineEntityRepositoryAbstract implements 
 
 
         $user = $this->userRepository->getUserByIdentifier($userIdentifier);
-        $accessToken->setUserIdentifier($user->getIdentifier());
+        $accessToken->setUser($user);
 
         //$this->userActionLog->info('user.login', ['user' => $user->getId(), 'client' => $clientEntity->getIdentifier()]);
 

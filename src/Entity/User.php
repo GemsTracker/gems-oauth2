@@ -31,7 +31,12 @@ class User implements UserEntityInterface, EntityInterface
 
     public function getIdentifier()
     {
-        return $this->login . static::ID_SEPARATOR . $this->organizationId;
+        return $this->id;
+    }
+
+    public function getReadableIdentifier(): string
+    {
+        return $this->getLogin() . static::ID_SEPARATOR . $this->getOrganizationId();
     }
 
     /**

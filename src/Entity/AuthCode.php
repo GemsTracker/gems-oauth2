@@ -26,7 +26,7 @@ class AuthCode implements AuthCodeEntityInterface, EntityInterface
     private string $authCode;
 
     #[Column]
-    private string $userId;
+    private int $userId;
 
     #[Column]
     private string $clientId;
@@ -55,6 +55,16 @@ class AuthCode implements AuthCodeEntityInterface, EntityInterface
         return $this->redirect;
     }
 
+    /**
+     * Get the token user's identifier.
+     *
+     * @return string|int|null
+     */
+    public function getUserIdentifier(): int
+    {
+        return $this->userId;
+    }
+
     public function setIdentifier($authCode): void
     {
         $this->authCode = $authCode;
@@ -63,5 +73,10 @@ class AuthCode implements AuthCodeEntityInterface, EntityInterface
     public function setRedirectUri($redirectUri): void
     {
         $this->redirect = $redirectUri;
+    }
+
+    public function setUserIdentifier($identifier): void
+    {
+        $this->userId = $identifier;
     }
 }

@@ -11,6 +11,7 @@ use DateTimeImmutable;
 use Gems\OAuth2\Repository\MfaCodeRepositoryInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Entities\ScopeEntityInterface;
+use League\OAuth2\Server\Entities\UserEntityInterface;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\Exception\UniqueTokenIdentifierConstraintViolationException;
 use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
@@ -66,7 +67,7 @@ class PasswordGrant extends \League\OAuth2\Server\Grant\PasswordGrant
     protected function issueMfaCode(
         DateInterval $mfaCodeTTL,
         ClientEntityInterface $client,
-        $userIdentifier,
+        UserEntityInterface $user,
         $challengeType,
         array $scopes = []
     ): ?MfaCodeEntityInterface
@@ -76,7 +77,7 @@ class PasswordGrant extends \League\OAuth2\Server\Grant\PasswordGrant
         $mfaCode = $this->mfaCodeRepository->getNewMfaCode();
         $mfaCode->setExpiryDateTime((new DateTimeImmutable())->add($mfaCodeTTL));
         $mfaCode->setClient($client);
-        $mfaCode->setUserIdentifier($userIdentifier);
+        $mfaCode->setUser($user);
         $mfaCode->setAuthMethod($challengeType);
 
         foreach ($scopes as $scope) {
@@ -132,7 +133,7 @@ class PasswordGrant extends \League\OAuth2\Server\Grant\PasswordGrant
             $mfaCode = $this->issueMfaCode(
                 $this->mfaCodeTTL,
                 $client,
-                $user->getIdentifier(),
+                $user,
                 $challengeType,
                 $finalizedScopes
             );

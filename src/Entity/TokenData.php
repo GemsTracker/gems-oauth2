@@ -15,8 +15,6 @@ trait TokenData
 
     private bool $revoked;
 
-    private string $userId;
-
     /**
      * Get the token's expiry date time.
      *
@@ -35,26 +33,6 @@ trait TokenData
     public function setExpiryDateTime(DateTimeImmutable $dateTime)
     {
         $this->expiresAt = $dateTime;
-    }
-
-    /**
-     * Get the token user's identifier.
-     *
-     * @return string|int|null
-     */
-    public function getUserIdentifier()
-    {
-        return $this->userId;
-    }
-
-    /**
-     * Set the identifier of the user associated with the token.
-     *
-     * @param string|int|null $identifier The identifier of the user
-     */
-    public function setUserIdentifier($identifier)
-    {
-        $this->userId = $identifier;
     }
 
     /**

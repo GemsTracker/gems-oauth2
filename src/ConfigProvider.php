@@ -59,7 +59,7 @@ class ConfigProvider
         return [
             'public' => $rootDir . '/data/keys/gems.public.key',
             'private' => $rootDir . '/data/keys/gems.private.key',
-            'keyPermissionsCheck' => true, // On windows systems set this to false to disable checking file permissions
+            'keyPermissionsCheck' => true, // On Windows systems set this to false to disable checking file permissions
             'passPhrase'          => null  // Optionally set the passphrase to use
         ];
     }
