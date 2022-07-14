@@ -73,7 +73,7 @@ class AccessTokenRepository extends DoctrineEntityRepositoryAbstract implements 
      */
     public function revokeAccessToken($tokenId): void
     {
-        $accessToken = $this->findOneBy(['id' => $tokenId]);
+        $accessToken = $this->findOneBy(['accessToken' => $tokenId]);
         $accessToken->setRevoked(true);
 
         try {
@@ -89,7 +89,7 @@ class AccessTokenRepository extends DoctrineEntityRepositoryAbstract implements 
      */
     public function isAccessTokenRevoked($tokenId): bool
     {
-        if ($accessToken = $this->findOneBy(['id' => $tokenId])) {
+        if ($accessToken = $this->findOneBy(['accessToken' => $tokenId])) {
             return $accessToken->getRevoked();
         }
 

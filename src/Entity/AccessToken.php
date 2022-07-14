@@ -25,7 +25,7 @@ class AccessToken implements AccessTokenEntityInterface, EntityInterface
     #[Id, GeneratedValue, Column]
     private int $id;
 
-    #[Column(name: 'accessToken', length: 100)]
+    #[Column(length: 100)]
     private string $accessToken;
 
     #[Column]
