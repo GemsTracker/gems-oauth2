@@ -28,7 +28,7 @@ class ClientRepository extends DoctrineEntityRepositoryAbstract implements Clien
     public function getClientEntity($clientIdentifier): ?ClientEntityInterface
     {
         $filter = [
-            'userId' => $clientIdentifier,
+            'clientId' => $clientIdentifier,
             'active'  => 1,
         ];
         $client = $this->findOneBy($filter);

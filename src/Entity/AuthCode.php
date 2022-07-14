@@ -38,7 +38,7 @@ class AuthCode implements AuthCodeEntityInterface, EntityInterface
     protected ?string $redirect;
 
     #[Column]
-    private bool $revoked = false;
+    private bool $revoked;
 
     #[Column]
     private \DateTimeImmutable $expiresAt;

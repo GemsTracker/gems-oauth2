@@ -26,7 +26,7 @@ class MfaCode implements MfaCodeEntityInterface, EntityInterface
     private string $authMethod;
 
     #[Column]
-    private int $userId;
+    private string $userId;
 
     #[Column]
     private string $clientId;
