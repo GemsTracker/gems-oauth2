@@ -18,7 +18,7 @@ class TestClient extends AbstractSeed
         $data = [
             [
                 'id' => 1,
-                'user_id' => 'test',
+                'client_id' => 'test',
                 'name' => 'Test Client',
                 'secret' => password_hash('test123', PASSWORD_DEFAULT),
                 'active' => 1,
