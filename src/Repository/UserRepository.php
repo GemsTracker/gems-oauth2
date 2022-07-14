@@ -9,6 +9,10 @@ use League\OAuth2\Server\Repositories\UserRepositoryInterface;
 
 class UserRepository extends DoctrineEntityRepositoryAbstract implements UserRepositoryInterface
 {
+    /**
+     * Linked entity
+     */
+    public const ENTITY = User::class;
 
     /**
      * Get a user by email and group

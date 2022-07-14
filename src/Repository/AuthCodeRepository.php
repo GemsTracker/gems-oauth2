@@ -17,7 +17,7 @@ class AuthCodeRepository extends DoctrineEntityRepositoryAbstract implements Aut
     /**
      * Linked entity
      */
-    const ENTITY = AuthCode::class;
+    public const ENTITY = AuthCode::class;
 
     /**
      * Creates a new AuthCode

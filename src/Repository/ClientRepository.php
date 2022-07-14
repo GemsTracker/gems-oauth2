@@ -16,7 +16,7 @@ class ClientRepository extends DoctrineEntityRepositoryAbstract implements Clien
     /**
      * Linked entity
      */
-    const ENTITY = Client::class;
+    public const ENTITY = Client::class;
 
     /**
      * Get a client.

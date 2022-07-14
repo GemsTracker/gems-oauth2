@@ -17,7 +17,10 @@ use Psr\Log\LoggerInterface;
 
 class AccessTokenRepository extends DoctrineEntityRepositoryAbstract implements AccessTokenRepositoryInterface
 {
-    const ENTITY = AccessToken::class;
+    /**
+     * Linked entity
+     */
+    public const ENTITY = AccessToken::class;
 
     protected LoggerInterface $userActionLog;
     /**

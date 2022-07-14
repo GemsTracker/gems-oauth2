@@ -11,7 +11,10 @@ use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
 
 class ScopeRepository extends DoctrineEntityRepositoryAbstract implements ScopeRepositoryInterface
 {
-    const ENTITY = Scope::class;
+    /**
+     * Linked entity
+     */
+    public const ENTITY = Scope::class;
 
     /**
      * @inheritDoc

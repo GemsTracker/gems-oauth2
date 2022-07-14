@@ -12,7 +12,10 @@ use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
 
 class RefreshTokenRepository extends DoctrineEntityRepositoryAbstract implements RefreshTokenRepositoryInterface
 {
-    const ENTITY = RefreshToken::class;
+    /**
+     * Linked entity
+     */
+    public const ENTITY = RefreshToken::class;
 
     /**
      * @inheritDoc

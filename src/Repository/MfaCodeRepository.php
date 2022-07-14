@@ -15,7 +15,7 @@ class MfaCodeRepository extends DoctrineEntityRepositoryAbstract implements MfaC
     /**
      * Linked Entity
      */
-    const ENTITY = MfaCode::class;
+    public const ENTITY = MfaCode::class;
 
     /**
      * Creates a new MfaCode
