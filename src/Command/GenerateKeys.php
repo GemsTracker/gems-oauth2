@@ -34,6 +34,9 @@ class GenerateKeys extends Command
             $keyGenerator = new PrivateKeyGenerator($privateKeyLocation, $publicKeyLocation);
             $keyGenerator->generateKeys();
 
+            $output->writeln(sprintf('<fg=green>Public key saved at:</> %s', $publicKeyLocation));
+            $output->writeln(sprintf('<fg=green>Private key saved at:</> %s', $privateKeyLocation));
+
             return static::SUCCESS;
         }
 
