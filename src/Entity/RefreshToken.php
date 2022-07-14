@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 use Gems\OAuth2\Repository\RefreshTokenRepository;
@@ -23,7 +24,7 @@ class RefreshToken implements RefreshTokenEntityInterface, EntityInterface
     #[Column]
     private string $refreshToken;
 
-    #[ManyToOne(targetEntity: AccessToken::class)]
+    #[ManyToOne(targetEntity: AccessToken::class), JoinColumn(name: 'access_token', referencedColumnName: 'access_token')]
     private AccessTokenEntityInterface $accessToken;
 
     #[Column]
