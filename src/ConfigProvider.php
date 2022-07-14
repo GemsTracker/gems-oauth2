@@ -2,9 +2,11 @@
 
 namespace Gems\OAuth2;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Gems\OAuth2\Factory\AccessTokenRepositoryFactory;
 use Gems\OAuth2\Factory\AuthCodeGrantFactory;
 use Gems\OAuth2\Factory\AuthorizationServerFactory;
+use Gems\OAuth2\Factory\DoctrineFactory;
 use Gems\OAuth2\Factory\DoctrineRepositoryFactory;
 use Gems\OAuth2\Factory\PasswordGrantFactory;
 use Gems\OAuth2\Factory\ResourceServerFactory;
@@ -52,6 +54,9 @@ class ConfigProvider
     {
         return [
             'factories' => [
+                // Doctrine
+                EntityManagerInterface::class => DoctrineFactory::class,
+
                 // OAuth Servers
                 AuthorizationServer::class => AuthorizationServerFactory::class,
                 ResourceServer::class => ResourceServerFactory::class,
