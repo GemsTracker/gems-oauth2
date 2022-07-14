@@ -54,9 +54,11 @@ class ConfigProvider
      */
     public function getCertificateSettings(): array
     {
+        $rootDir = getcwd();
+
         return [
-            'public' => 'data/keys/gems.public.key',
-            'private' => 'data/keys/gems.private.key',
+            'public' => $rootDir . '/data/keys/gems.public.key',
+            'private' => $rootDir . '/data/keys/gems.private.key',
             'keyPermissionsCheck' => true, // On windows systems set this to false to disable checking file permissions
             'passPhrase'          => null  // Optionally set the passphrase to use
         ];
