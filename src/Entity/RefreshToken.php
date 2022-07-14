@@ -24,7 +24,7 @@ class RefreshToken implements RefreshTokenEntityInterface, EntityInterface
     #[Column]
     private string $refreshToken;
 
-    #[ManyToOne(targetEntity: AccessToken::class), JoinColumn(name: 'access_token', referencedColumnName: 'access_token')]
+    #[ManyToOne(targetEntity: AccessToken::class), JoinColumn(name: 'access_token')]
     private AccessTokenEntityInterface $accessToken;
 
     #[Column]
