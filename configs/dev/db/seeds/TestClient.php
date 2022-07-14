@@ -22,6 +22,7 @@ class TestClient extends AbstractSeed
                 'name' => 'Test Client',
                 'secret' => password_hash('test123', PASSWORD_DEFAULT),
                 'active' => 1,
+                'confidential' => 1,
             ]
         ];
 
