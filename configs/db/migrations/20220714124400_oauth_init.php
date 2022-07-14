@@ -53,11 +53,12 @@ final class OauthInit extends AbstractMigration
         if (!$exists) {
             $clients = $this->table('gems__oauth_clients', ['signed' => false]);
             $clients
-                ->addColumn('user_id', 'string', ['limit' => 255])
+                ->addColumn('client_id', 'string', ['limit' => 255])
                 ->addColumn('name', 'string', ['limit' => 255])
                 ->addColumn('secret', 'string', ['limit' => 255])
                 ->addColumn('redirect', 'string', ['limit' => 255, 'null' => true])
                 ->addColumn('active', 'boolean')
+                ->addColumn('confidential', 'boolean')
                 ->addTimestamps()
                 ->addIndex(['user_id'])
                 ->create();
@@ -72,7 +73,7 @@ final class OauthInit extends AbstractMigration
                 ->addColumn('revoked', 'boolean')
                 ->addColumn('expires_at', 'datetime', ['null' => true])
                 ->addTimestamps()
-                ->addIndex(['refresh_token', 'refresh_token_id'])
+                ->addIndex(['refresh_token'])
                 ->create();
         }
 
