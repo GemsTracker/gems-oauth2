@@ -40,11 +40,25 @@ class ConfigProvider
     public function __invoke(): array
     {
         return [
+            'certificates' => $this->getCertificateSettings(),
             'console' => $this->getConsoleSettings(),
             'doctrine' => $this->getDoctrineSettings(),
             'dependencies'  => $this->getDependencies(),
             'migrations'    => $this->getMigrations(),
             'oauth2'   => $this->getOAuth2Settings(),
+        ];
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function getCertificateSettings(): array
+    {
+        return [
+            'public' => 'data/keys/gems.public.key',
+            'private' => 'data/keys/gems.private.key',
+            'keyPermissionsCheck' => true, // On windows systems set this to false to disable checking file permissions
+            'passPhrase'          => null  // Optionally set the passphrase to use
         ];
     }
 
