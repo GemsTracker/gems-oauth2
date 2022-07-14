@@ -39,6 +39,7 @@ class ConfigProvider
         return [
             'doctrine' => $this->getDoctrineSettings(),
             'dependencies'  => $this->getDependencies(),
+            'migrations'    => $this->getMigrations(),
             'oauth2'   => $this->getOAuth2Settings(),
 
         ];
@@ -92,6 +93,21 @@ class ConfigProvider
             'paths' => [
                 __DIR__ . '/Entity',
             ]
+        ];
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function getMigrations(): array
+    {
+        return [
+            'migrations' => [
+                __DIR__ . '/../configs/db/migrations',
+            ],
+            'seeds' => [
+                __DIR__ . '/../configs/db/seeds',
+            ],
         ];
     }
 

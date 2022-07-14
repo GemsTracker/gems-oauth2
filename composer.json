@@ -13,10 +13,19 @@
     "doctrine/orm": "^2.12",
     "laminas/laminas-servicemanager": "^3.14",
     "psr/http-server-handler": "^1.0",
-    "laminas/laminas-diactoros": "^2.13"
+    "laminas/laminas-diactoros": "^2.13",
+    "robmorgan/phinx": "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "^9",
     "phpstan/phpstan": "^1.8"
-  }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/jvangestel/phinx.git"
+    }
+  ]
 }
