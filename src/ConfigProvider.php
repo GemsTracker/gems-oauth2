@@ -133,7 +133,7 @@ class ConfigProvider
      */
     public function getMigrations(): array
     {
-        return [
+        $migrations = [
             'migrations' => [
                 __DIR__ . '/../configs/db/migrations',
             ],
@@ -141,6 +141,12 @@ class ConfigProvider
                 __DIR__ . '/../configs/db/seeds',
             ],
         ];
+
+        if (getenv('APP_ENV') === 'development') {
+            $migrations['seeds'][] = __DIR__ . '/../configs/dev/db/seeds';
+        }
+
+        return $migrations;
     }
 
     /**
