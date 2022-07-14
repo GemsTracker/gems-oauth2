@@ -1,6 +1,6 @@
 <?php
 
-namespace Gems\Command;
+namespace Gems\OAuth2\Command;
 
 use Gems\OAuth2\Util\PrivateKeyGenerator;
 use Symfony\Component\Console\Attribute\AsCommand;
