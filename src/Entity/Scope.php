@@ -16,8 +16,6 @@ use League\OAuth2\Server\Entities\Traits\ScopeTrait;
 #[Entity(repositoryClass: ScopeRepository::class), Table(name: 'gems__oauth_scopes')]
 class Scope implements ScopeEntityInterface, EntityInterface
 {
-    use ScopeTrait;
-
     #[Id, GeneratedValue,Column]
     private int $id;
 
@@ -41,5 +39,15 @@ class Scope implements ScopeEntityInterface, EntityInterface
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * Serialize the object to the scopes string identifier when using json_encode().
+     *
+     * @return string
+     */
+    public function jsonSerialize(): mixed
+    {
+        return $this->getIdentifier();
     }
 }

@@ -3,14 +3,14 @@
 namespace Gems\OAuth2\Factory;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Gems\OAuth2\Repository\AccessTokenRepository;
+use Doctrine\ORM\EntityRepository;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Psr\Container\ContainerInterface;
 
 class DoctrineRepositoryFactory implements FactoryInterface
 {
 
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): AccessTokenRepository
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): EntityRepository
     {
         $entityManager = $container->get(EntityManagerInterface::class);
 

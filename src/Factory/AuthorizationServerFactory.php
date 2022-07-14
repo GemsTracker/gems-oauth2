@@ -26,6 +26,12 @@ class AuthorizationServerFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null): AuthorizationServer
     {
         $config = $container->get('config');
+        if (!isset($config['certificates'], $config['certificates']['private'])) {
+            throw new \RuntimeException('Missing config values for certificates');
+        }
+        if (!isset($config['app'], $config['app']['key'])) {
+            throw new \RuntimeException('Missing config values for app key');
+        }
 
         $accessTokenRepository = $container->get(AccessTokenRepository::class);
         $clientRepository = $container->get(ClientRepository::class);

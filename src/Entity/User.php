@@ -6,17 +6,22 @@ namespace Gems\OAuth2\Entity;
 
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 use Gems\OAuth2\Repository\UserRepository;
 use League\OAuth2\Server\Entities\Traits\EntityTrait;
 use League\OAuth2\Server\Entities\UserEntityInterface;
 
-#[Entity(repositoryClass: UserRepository::class), Table(name: 'gems__users')]
+#[Entity(repositoryClass: UserRepository::class), Table(name: 'gems__user_logins')]
 class User implements UserEntityInterface, EntityInterface
 {
     public const ID_SEPARATOR = '::';
 
     use EntityTrait;
+
+    #[Id, GeneratedValue, Column(name: 'gul_id_user')]
+    protected int $id;
 
     #[Column(name: 'gul_login', length: 30)]
     protected string $login;

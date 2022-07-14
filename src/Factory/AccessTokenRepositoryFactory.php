@@ -4,11 +4,8 @@ namespace Gems\OAuth2\Factory;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Gems\OAuth2\Repository\AccessTokenRepository;
-use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
-use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use League\OAuth2\Server\Repositories\UserRepositoryInterface;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 
 class AccessTokenRepositoryFactory implements FactoryInterface

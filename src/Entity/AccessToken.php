@@ -22,7 +22,7 @@ class AccessToken implements AccessTokenEntityInterface, EntityInterface
     use AccessTokenTrait;
     use TokenData;
 
-    #[Id, GeneratedValue,Column]
+    #[Id, GeneratedValue, Column]
     private int $id;
 
     #[Column(name: 'accessToken', length: 100)]
@@ -38,7 +38,7 @@ class AccessToken implements AccessTokenEntityInterface, EntityInterface
     protected ?string $scopeList;
 
     #[Column]
-    private bool $revoked = false;
+    private bool $revoked;
 
     #[Column]
     private \DateTimeImmutable $expiresAt;

@@ -7,6 +7,7 @@ namespace Gems\OAuth2\Factory;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\Driver\AttributeDriver;
 use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\Persistence\Mapping\Driver\StaticPHPDriver;
@@ -42,7 +43,7 @@ class DoctrineFactory implements FactoryInterface
         ];
 
         $config = ORMSetup::createConfiguration($isDevMode);
-        $driver = new StaticPHPDriver($paths);
+        $driver = new AttributeDriver($paths);
         $config->setMetadataDriverImpl($driver);
         $namingStrategy = new UnderscoreNamingStrategy(CASE_LOWER, true);
         $config->setNamingStrategy($namingStrategy);
