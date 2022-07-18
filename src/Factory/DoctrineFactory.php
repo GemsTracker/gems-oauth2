@@ -13,6 +13,7 @@ use Doctrine\ORM\ORMSetup;
 use Doctrine\Persistence\Mapping\Driver\StaticPHPDriver;
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psr\Cache\CacheItemPoolInterface;
 
 class DoctrineFactory implements FactoryInterface
 {
@@ -45,6 +46,11 @@ class DoctrineFactory implements FactoryInterface
         $config = ORMSetup::createConfiguration($isDevMode);
         $driver = new AttributeDriver($paths);
         $config->setMetadataDriverImpl($driver);
+
+        $cache = $container->get(CacheItemPoolInterface::class);
+        $config->setMetadataCache($cache);
+        $config->setQueryCache($cache);
+        $config->setResultCache($cache);
         $namingStrategy = new UnderscoreNamingStrategy(CASE_LOWER, true);
         $config->setNamingStrategy($namingStrategy);
         $entityManager = EntityManager::create($databaseOptions, $config);
