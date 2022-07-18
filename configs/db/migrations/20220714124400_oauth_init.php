@@ -23,7 +23,7 @@ final class OauthInit extends AbstractMigration
             $accessTokens = $this->table('gems__oauth_access_tokens', ['signed' => false]);
             $accessTokens
                 ->addColumn('access_token', 'string', ['limit' => 100])
-                ->addColumn('user_id', 'string', ['limit' => 255])
+                ->addColumn('user_id', 'integer', ['signed' => false])
                 ->addColumn('client_id', 'string', ['limit' => 255])
                 ->addColumn('scopes', 'text', ['null' => true])
                 ->addColumn('revoked', 'boolean')
