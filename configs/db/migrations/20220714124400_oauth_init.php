@@ -60,7 +60,7 @@ final class OauthInit extends AbstractMigration
                 ->addColumn('active', 'boolean')
                 ->addColumn('confidential', 'boolean')
                 ->addTimestamps()
-                ->addIndex(['user_id'])
+                ->addIndex(['client_id'])
                 ->create();
         }
 
