@@ -83,9 +83,6 @@ class ConfigProvider
     {
         return [
             'factories' => [
-                // Doctrine
-                EntityManagerInterface::class => DoctrineFactory::class,
-
                 // OAuth Servers
                 AuthorizationServer::class => AuthorizationServerFactory::class,
                 ResourceServer::class => ResourceServerFactory::class,
