@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gems\OAuth2\Action;
+namespace Gems\OAuth2\Handler;
 
 use Gems\OAuth2\Exception\AuthException;
 use Gems\OAuth2\Exception\ThrottleException;
@@ -18,7 +18,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class AuthorizeAction implements RequestHandlerInterface
+class AuthorizeHandler implements RequestHandlerInterface
 {
 
     /**

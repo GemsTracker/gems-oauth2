@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gems\OAuth2\Action;
+namespace Gems\OAuth2\Handler;
 
 use Laminas\Diactoros\Response\JsonResponse;
 use League\OAuth2\Server\AuthorizationServer;
@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class AccessTokenAction implements RequestHandlerInterface
+class AccessTokenHandler implements RequestHandlerInterface
 {
     /**
      * @var AuthorizationServer

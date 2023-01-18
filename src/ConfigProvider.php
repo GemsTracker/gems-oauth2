@@ -2,17 +2,16 @@
 
 namespace Gems\OAuth2;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Gems\OAuth2\Command\GenerateKeys;
 use Gems\OAuth2\Factory\AccessTokenRepositoryFactory;
 use Gems\OAuth2\Factory\AuthCodeGrantFactory;
 use Gems\OAuth2\Factory\AuthorizationServerFactory;
-use Gems\OAuth2\Factory\DoctrineFactory;
 use Gems\OAuth2\Factory\DoctrineRepositoryFactory;
 use Gems\OAuth2\Factory\PasswordGrantFactory;
 use Gems\OAuth2\Factory\ResourceServerFactory;
 use Gems\OAuth2\Grant\MfaCodeGrant;
 use Gems\OAuth2\Grant\PasswordGrant;
+use Gems\OAuth2\Handler\AccessTokenHandler;
 use Gems\OAuth2\Repository\AccessTokenRepository;
 use Gems\OAuth2\Repository\AuthCodeRepository;
 use Gems\OAuth2\Repository\ClientRepository;
@@ -46,6 +45,7 @@ class ConfigProvider
             'dependencies'  => $this->getDependencies(),
             'migrations'    => $this->getMigrations(),
             'oauth2'   => $this->getOAuth2Settings(),
+            'routes' => $this->getRoutes(),
         ];
     }
 
@@ -180,6 +180,20 @@ class ConfigProvider
                     'class' => ClientCredentialsGrant::class,
                     'token_valid' => 'PT1H', // Time a token is valid
                 ],*/
+            ],
+        ];
+    }
+
+    public function getRoutes(): array
+    {
+        return [
+            [
+                'name' => 'access_token',
+                'path' => '/api/access_token',
+                'middleware' => [
+                    AccessTokenHandler::class,
+                ],
+                'allowed_methods' => ['POST'],
             ],
         ];
     }
