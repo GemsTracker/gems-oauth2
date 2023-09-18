@@ -63,7 +63,7 @@ class AccessToken implements AccessTokenEntityInterface, EntityInterface
             ->issuedAt(new DateTimeImmutable())
             ->canOnlyBeUsedAfter(new DateTimeImmutable())
             ->expiresAt($this->getExpiryDateTime())
-            ->relatedTo((string) $this->getUser()->getReadableIdentifier())
+            ->relatedTo($this->getUser()->getReadableIdentifier())
             ->withClaim('scopes', $this->getScopes())
             ->getToken($this->jwtConfiguration->signer(), $this->jwtConfiguration->signingKey());
     }
@@ -84,19 +84,19 @@ class AccessToken implements AccessTokenEntityInterface, EntityInterface
     /**
      * Get the token user's identifier.
      *
-     * @return string|int|null
+     * @return int|string
      */
-    public function getUserIdentifier(): int
+    public function getUserIdentifier(): int|string
     {
         return $this->user->getIdentifier();
     }
 
     /**
-     * @param string $accessToken
+     * @param mixed $identifier
      */
-    public function setIdentifier($accessToken): void
+    public function setIdentifier($identifier): void
     {
-        $this->accessToken = $accessToken;
+        $this->accessToken = (string)$identifier;
     }
 
     /**

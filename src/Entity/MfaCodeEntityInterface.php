@@ -11,4 +11,6 @@ interface MfaCodeEntityInterface extends TokenInterface
     public function getAuthMethod(): string;
 
     public function setAuthMethod(string $method): void;
+
+    public function setUser(User $user): void;
 }

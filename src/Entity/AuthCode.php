@@ -58,25 +58,25 @@ class AuthCode implements AuthCodeEntityInterface, EntityInterface
     /**
      * Get the token user's identifier.
      *
-     * @return string|int|null
+     * @return int
      */
     public function getUserIdentifier(): int
     {
         return $this->userId;
     }
 
-    public function setIdentifier($authCode): void
+    public function setIdentifier($identifier): void
     {
-        $this->authCode = $authCode;
+        $this->authCode = $identifier;
     }
 
-    public function setRedirectUri($redirectUri): void
+    public function setRedirectUri($uri): void
     {
-        $this->redirect = $redirectUri;
+        $this->redirect = $uri;
     }
 
     public function setUserIdentifier($identifier): void
     {
-        $this->userId = $identifier;
+        $this->userId = (int)$identifier;
     }
 }

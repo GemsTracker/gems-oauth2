@@ -68,19 +68,19 @@ class MfaCode implements MfaCodeEntityInterface, EntityInterface
     }
 
     /**
-     * @param string $authMethod
+     * @param string $method
      */
-    public function setAuthMethod(string $authMethod): void
+    public function setAuthMethod(string $method): void
     {
-        $this->authMethod = $authMethod;
+        $this->authMethod = $method;
     }
 
     /**
-     * @param string $mfaCode
+     * @param mixed $identifier
      */
-    public function setIdentifier($mfaCode): void
+    public function setIdentifier($identifier): void
     {
-        $this->mfaCode = $mfaCode;
+        $this->mfaCode = (string)$identifier;
     }
 
     public function setUser(User $user): void

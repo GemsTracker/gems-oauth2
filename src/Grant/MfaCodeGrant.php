@@ -5,8 +5,10 @@ declare(strict_types=1);
 
 namespace Gems\OAuth2\Grant;
 
+use Gems\OAuth2\Entity\User;
 use Gems\OAuth2\Exception\AuthException;
 use Gems\OAuth2\Exception\ThrottleException;
+use Gems\OAuth2\Repository\UserRepository;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Entities\UserEntityInterface;
 use League\OAuth2\Server\Exception\OAuthServerException;
@@ -34,6 +36,11 @@ class MfaCodeGrant extends PasswordGrant
         ResponseTypeInterface $responseType,
         \DateInterval $accessTokenTTL
     ) {
+
+        if (!$this->userRepository instanceof UserRepository) {
+            throw OAuthServerException::serverError('Incorrect user repository');
+        }
+
         // Validate request
         $client = $this->validateClient($request);
 
@@ -50,7 +57,10 @@ class MfaCodeGrant extends PasswordGrant
             if ($userIdentification === null) {
                 throw OAuthServerException::invalidRequest('mfa_token', 'user not found in mfa_token');
             }
-            $user = $this->userRepository->getUserByIdentifier($userIdentification, true);
+            $user = $this->userRepository->getUserByIdentifier($userIdentification);
+            if (!$user instanceof User) {
+                throw OAuthServerException::invalidRequest('mfa_token', 'user not found in mfa_token');
+            }
 
             $this->validateMfaCode($mfaCodePayload, $client, $user);
 

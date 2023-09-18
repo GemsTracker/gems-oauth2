@@ -61,6 +61,9 @@ class AuthCodeRepository extends DoctrineEntityRepositoryAbstract implements Aut
         ];
 
         $authCode = $this->findOneBy($filter);
+        if (!$authCode instanceof AuthCode) {
+            throw new AuthException('Auth code could not be revoked');
+        }
 
         $authCode->setRevoked(true);
 
@@ -85,7 +88,9 @@ class AuthCodeRepository extends DoctrineEntityRepositoryAbstract implements Aut
             'id' => $codeId,
         ];
 
-        if ($authCode = $this->findOneBy($filter)) {
+        $authCode = $this->findOneBy($filter);
+
+        if ($authCode instanceof AuthCode) {
             return $authCode->isRevoked();
         }
 

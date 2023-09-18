@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Gems\OAuth2\Repository;
 
 use Gems\OAuth2\Entity\AccessToken;
+use Gems\OAuth2\Entity\User;
 use Gems\OAuth2\Exception\AuthException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Exception\ORMException;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
+use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
-use League\OAuth2\Server\Repositories\UserRepositoryInterface;
-use Psr\Log\LoggerInterface;
 
 class AccessTokenRepository extends DoctrineEntityRepositoryAbstract implements AccessTokenRepositoryInterface
 {
@@ -22,16 +22,9 @@ class AccessTokenRepository extends DoctrineEntityRepositoryAbstract implements 
      */
     public const ENTITY = AccessToken::class;
 
-    protected LoggerInterface $userActionLog;
-    /**
-     * @var UserRepositoryInterface
-     */
-    protected UserRepositoryInterface $userRepository;
-
-    public function __construct(EntityManagerInterface $entityManager, UserRepository $userRepository, ClassMetadata $metaData)
+    public function __construct(EntityManagerInterface $entityManager, protected UserRepository $userRepository, ClassMetadata $metaData)
     {
         parent::__construct($entityManager, $metaData);
-        $this->userRepository = $userRepository;
     }
 
     /**
@@ -48,6 +41,10 @@ class AccessTokenRepository extends DoctrineEntityRepositoryAbstract implements 
 
 
         $user = $this->userRepository->getUserByIdentifier($userIdentifier);
+        if (!$user instanceof User) {
+            throw new OAuthServerException('User not found', 400, 'access_token_error');
+        }
+
         $accessToken->setUser($user);
 
         //$this->userActionLog->info('user.login', ['user' => $user->getId(), 'client' => $clientEntity->getIdentifier()]);
@@ -74,6 +71,10 @@ class AccessTokenRepository extends DoctrineEntityRepositoryAbstract implements 
     public function revokeAccessToken($tokenId): void
     {
         $accessToken = $this->findOneBy(['accessToken' => $tokenId]);
+        if (!$accessToken instanceof AccessToken) {
+            throw new AuthException('Access token could not be revoked');
+        }
+
         $accessToken->setRevoked(true);
 
         try {
@@ -89,7 +90,8 @@ class AccessTokenRepository extends DoctrineEntityRepositoryAbstract implements 
      */
     public function isAccessTokenRevoked($tokenId): bool
     {
-        if ($accessToken = $this->findOneBy(['accessToken' => $tokenId])) {
+        $accessToken = $this->findOneBy(['accessToken' => $tokenId]);
+        if ($accessToken instanceof AccessToken) {
             return $accessToken->isRevoked();
         }
 

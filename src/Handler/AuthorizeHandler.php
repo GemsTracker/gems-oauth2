@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Gems\OAuth2\Handler;
 
+use Gems\OAuth2\Entity\User;
 use Gems\OAuth2\Exception\AuthException;
 use Gems\OAuth2\Exception\ThrottleException;
 use Gems\OAuth2\Repository\UserRepository;
@@ -68,9 +69,8 @@ class AuthorizeHandler implements RequestHandlerInterface
 
             if (isset($data['otp']) && $userIdentifier = $flashMessages->getFlash($this->flashName)) {
                 $user = $this->userRepository->getUserByIdentifier($userIdentifier);
-
                 try {
-                    if ($this->userRepository->verifyOtp($user, $data['otp'])) {
+                    if ($user instanceof User && $this->userRepository->verifyOtp($user, $data['otp'])) {
                         return $this->approveRequest($authRequest, $user);
                     }
                 } catch (ThrottleException $e) {
@@ -84,7 +84,7 @@ class AuthorizeHandler implements RequestHandlerInterface
 
                 return new Response\HtmlResponse($this->template->render('auth::login_otp', $templateData));
             } elseif (isset($data['username'], $data['password'])) {
-                $combinedUsername = $data['username'] . UserRepository::$delimiter . $group;
+                $combinedUsername = $data['username'] . $this->userRepository->getDelimiter() . $group;
                 try {
                     $user = $this->userRepository->getUserEntityByUserCredentials(
                         $combinedUsername,

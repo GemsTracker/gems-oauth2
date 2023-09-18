@@ -47,6 +47,9 @@ class RefreshTokenRepository extends DoctrineEntityRepositoryAbstract implements
     public function revokeRefreshToken($tokenId): void
     {
         $refreshToken = $this->findOneBy(['refreshToken' => $tokenId]);
+        if (!$refreshToken instanceof RefreshToken) {
+            throw new AuthException('Refresh token could not be revoked');
+        }
         $refreshToken->setRevoked(true);
 
         try {
@@ -62,7 +65,8 @@ class RefreshTokenRepository extends DoctrineEntityRepositoryAbstract implements
      */
     public function isRefreshTokenRevoked($tokenId): bool
     {
-        if ($refreshToken = $this->findOneBy(['refreshToken' => $tokenId])) {
+        $refreshToken = $this->findOneBy(['refreshToken' => $tokenId]);
+        if ($refreshToken instanceof RefreshToken) {
             return $refreshToken->isRevoked();
         }
 

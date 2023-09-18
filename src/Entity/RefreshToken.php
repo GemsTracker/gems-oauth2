@@ -71,19 +71,19 @@ class RefreshToken implements RefreshTokenEntityInterface, EntityInterface
     }
 
     /**
-     * @param \DateTimeImmutable $expiresAt
+     * @param \DateTimeImmutable $dateTime
      */
-    public function setExpiryDateTime(\DateTimeImmutable $expiresAt): void
+    public function setExpiryDateTime(\DateTimeImmutable $dateTime): void
     {
-        $this->expiresAt = $expiresAt;
+        $this->expiresAt = $dateTime;
     }
 
     /**
-     * @param string $refreshToken
+     * @param mixed $identifier
      */
-    public function setIdentifier($refreshToken): void
+    public function setIdentifier($identifier): void
     {
-        $this->refreshToken = $refreshToken;
+        $this->refreshToken = (string)$identifier;
     }
 
     /**

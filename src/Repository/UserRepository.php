@@ -2,6 +2,7 @@
 
 namespace Gems\OAuth2\Repository;
 
+use Gems\OAuth2\Entity\EntityInterface;
 use Gems\OAuth2\Entity\User;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Exception\OAuthServerException;
@@ -14,11 +15,17 @@ class UserRepository extends DoctrineEntityRepositoryAbstract implements UserRep
      */
     public const ENTITY = User::class;
 
+    protected string $delimiter = '@';
+
+    public function getDelimiter(): string
+    {
+        return $this->delimiter;
+    }
+
     /**
      * Get a user by email and group
      *
      * @param string $username
-     * @param string $group
      * @return User
      * @throws OAuthServerException
      */
@@ -49,7 +56,7 @@ class UserRepository extends DoctrineEntityRepositoryAbstract implements UserRep
         throw OAuthServerException::accessDenied('No user with supplied credentials could be found');
     }
 
-    public function getUserByIdentifier($username): User
+    public function getUserByIdentifier($username): EntityInterface|null
     {
         if (is_numeric($username)) {
             return $this->find($username);

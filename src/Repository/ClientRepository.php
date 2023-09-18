@@ -54,8 +54,11 @@ class ClientRepository extends DoctrineEntityRepositoryAbstract implements Clien
      */
     public function validateClient($clientIdentifier, $clientSecret, $grantType): bool
     {
+        if ($clientSecret === null) {
+            throw new AuthException('Client secret required');
+        }
         $client = $this->getClientEntity($clientIdentifier);
-        if (!password_verify($clientSecret, $client->getSecret())) {
+        if (!$client instanceof Client || !password_verify($clientSecret, $client->getSecret())) {
             throw new AuthException('Client with supplied user ID and secret not found');
         }
         return true;

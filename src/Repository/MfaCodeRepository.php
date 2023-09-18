@@ -55,6 +55,10 @@ class MfaCodeRepository extends DoctrineEntityRepositoryAbstract implements MfaC
     public function revokeMfaCode($codeId): void
     {
         $mfaCode = $this->findOneBy(['id' => $codeId]);
+        if (!$mfaCode instanceof MfaCode) {
+            throw new AuthException('Mfa code could not be revoked');
+        }
+
         $mfaCode->setRevoked(true);
 
         try {
@@ -74,7 +78,8 @@ class MfaCodeRepository extends DoctrineEntityRepositoryAbstract implements MfaC
      */
     public function isMfaCodeRevoked($codeId): bool
     {
-        if ($mfaToken = $this->findOneBy(['id' => $codeId])) {
+        $mfaToken = $this->findOneBy(['id' => $codeId]);
+        if ($mfaToken instanceof MfaCode) {
             return $mfaToken->isRevoked();
         }
 

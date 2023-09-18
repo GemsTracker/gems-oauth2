@@ -19,11 +19,11 @@ interface MfaCodeRepositoryInterface
     /**
      * Persists a new mfa code to permanent storage.
      *
-     * @param MfaCodeEntityInterface $authCodeEntity
+     * @param MfaCodeEntityInterface $mfaCodeEntity
      *
      * @throws UniqueTokenIdentifierConstraintViolationException
      */
-    public function persistNewMfaCode(MfaCodeEntityInterface $authCodeEntity): void;
+    public function persistNewMfaCode(MfaCodeEntityInterface $mfaCodeEntity): void;
 
     /**
      * Revoke an mfa code.

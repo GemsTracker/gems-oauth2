@@ -8,14 +8,15 @@ namespace Gems\OAuth2\Grant;
 use Gems\OAuth2\Entity\MfaCodeEntityInterface;
 use DateInterval;
 use DateTimeImmutable;
+use Gems\OAuth2\Entity\User;
+use Gems\OAuth2\Repository\MfaCodeRepository;
 use Gems\OAuth2\Repository\MfaCodeRepositoryInterface;
+use Gems\OAuth2\Repository\RefreshTokenRepository;
+use Gems\OAuth2\Repository\UserRepository;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Entities\ScopeEntityInterface;
-use League\OAuth2\Server\Entities\UserEntityInterface;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\Exception\UniqueTokenIdentifierConstraintViolationException;
-use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
-use League\OAuth2\Server\Repositories\UserRepositoryInterface;
 use League\OAuth2\Server\RequestEvent;
 use League\OAuth2\Server\ResponseTypes\ResponseTypeInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -28,24 +29,17 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class PasswordGrant extends \League\OAuth2\Server\Grant\PasswordGrant
 {
-    /**
-     * @var MfaCodeRepositoryInterface
-     */
-    protected MfaCodeRepositoryInterface $mfaCodeRepository;
-    protected DateInterval $mfaCodeTTL;
 
-    public function __construct(UserRepositoryInterface $userRepository, RefreshTokenRepositoryInterface $refreshTokenRepository,
-                                MfaCodeRepositoryInterface $mfaCodeRepository, DateInterval $mfaCodeTTL)
+    public function __construct(UserRepository $userRepository, RefreshTokenRepository $refreshTokenRepository,
+                                protected MfaCodeRepository $mfaCodeRepository, protected DateInterval $mfaCodeTTL)
     {
         parent::__construct($userRepository, $refreshTokenRepository);
-        $this->setMfaCodeRepository($mfaCodeRepository);
-        $this->mfaCodeTTL = $mfaCodeTTL;
     }
 
     /**
-     * @return MfaCodeRepositoryInterface
+     * @return MfaCodeRepository
      */
-    public function getMfaCodeRepository(): MfaCodeRepositoryInterface
+    public function getMfaCodeRepository(): MfaCodeRepository
     {
         return $this->mfaCodeRepository;
     }
@@ -55,7 +49,7 @@ class PasswordGrant extends \League\OAuth2\Server\Grant\PasswordGrant
      *
      * @param DateInterval           $mfaCodeTTL
      * @param ClientEntityInterface  $client
-     * @param string                 $userIdentifier
+     * @param string                 $user
      * @param string            $challengeType
      * @param ScopeEntityInterface[] $scopes
      *
@@ -67,7 +61,7 @@ class PasswordGrant extends \League\OAuth2\Server\Grant\PasswordGrant
     protected function issueMfaCode(
         DateInterval $mfaCodeTTL,
         ClientEntityInterface $client,
-        UserEntityInterface $user,
+        User $user,
         $challengeType,
         array $scopes = []
     ): ?MfaCodeEntityInterface
@@ -184,9 +178,9 @@ class PasswordGrant extends \League\OAuth2\Server\Grant\PasswordGrant
     }
 
     /**
-     * @param MfaCodeRepositoryInterface $mfaCodeRepository
+     * @param MfaCodeRepository $mfaCodeRepository
      */
-    public function setMfaCodeRepository(MfaCodeRepositoryInterface $mfaCodeRepository): void
+    public function setMfaCodeRepository(MfaCodeRepository $mfaCodeRepository): void
     {
         $this->mfaCodeRepository = $mfaCodeRepository;
     }
