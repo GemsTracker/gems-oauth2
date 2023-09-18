@@ -133,8 +133,8 @@ class ConfigProvider
     public function getMigrations(): array
     {
         $migrations = [
-            'migrations' => [
-                __DIR__ . '/../configs/db/migrations',
+            'tables' => [
+                __DIR__ . '/../configs/db/tables',
             ],
             'seeds' => [
                 __DIR__ . '/../configs/db/seeds',
