@@ -136,9 +136,6 @@ class ConfigProvider
             'tables' => [
                 __DIR__ . '/../configs/db/tables',
             ],
-            'seeds' => [
-                __DIR__ . '/../configs/db/seeds',
-            ],
         ];
 
         if (getenv('APP_ENV') === 'development') {
