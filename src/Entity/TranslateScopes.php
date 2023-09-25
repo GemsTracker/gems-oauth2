@@ -34,8 +34,12 @@ trait TranslateScopes
      */
     public function getScopeList(): ?string
     {
-        if (!$this->scopeList && count($this->scopes)) {
-            $this->scopeList = join(',', $this->scopes);
+        if (!isset($this->scopeList)) {
+            $this->scopeList = null;
+
+            if (count($this->scopes)) {
+                $this->scopeList = join(',', array_keys($this->scopes));
+            }
         }
         return $this->scopeList;
     }

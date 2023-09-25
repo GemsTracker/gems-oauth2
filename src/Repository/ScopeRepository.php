@@ -7,6 +7,7 @@ namespace Gems\OAuth2\Repository;
 use Gems\OAuth2\Entity\Scope;
 use Gems\OAuth2\Exception\AuthException;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
+use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
 
 class ScopeRepository extends DoctrineEntityRepositoryAbstract implements ScopeRepositoryInterface
@@ -42,6 +43,9 @@ class ScopeRepository extends DoctrineEntityRepositoryAbstract implements ScopeR
      */
     public function finalizeScopes(array $scopes, $grantType, ClientEntityInterface $clientEntity, $userIdentifier = null): array
     {
+        if (!count($scopes)) {
+            throw OAuthServerException::invalidScope('');
+        }
         return $scopes;
     }
 }

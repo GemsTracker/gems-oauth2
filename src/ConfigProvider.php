@@ -139,7 +139,11 @@ class ConfigProvider
         ];
 
         if (getenv('APP_ENV') === 'development') {
-            $migrations['seeds'][] = __DIR__ . '/../configs/dev/db/seeds';
+            $migrations['seeds'][] = [
+                'db' => 'gems',
+                'path' => __DIR__ . '/../configs/dev/db/seeds',
+                'module' => 'gems-oauth2-dev',
+            ];
         }
 
         return $migrations;
