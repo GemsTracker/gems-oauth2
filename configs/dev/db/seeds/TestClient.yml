@@ -1,0 +1,7 @@
+gems__oauth_clients:
+  - id: 1
+    client_id: test
+    name: Test Client
+    secret: $2y$12$ulZdkgGPMO7hpUCzajExfOim.8JLMuKPIStHmmLcQtmd18wxBdDta # test123
+    active: 1
+    confidential: 1
