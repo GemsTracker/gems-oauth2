@@ -127,6 +127,6 @@ class BearerTokenValidator extends \League\OAuth2\Server\AuthorizationValidators
     {
         $claims = $token->claims();
 
-        return $request->withAttribute('currentUserId', $claims->get('user_Id'));
+        return $request->withAttribute('currentUserId', $claims->get('user_id'));
     }
 }
