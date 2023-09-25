@@ -16,7 +16,7 @@ use League\OAuth2\Server\Entities\UserEntityInterface;
 #[Entity(repositoryClass: UserRepository::class), Table(name: 'gems__user_logins')]
 class User implements UserEntityInterface, EntityInterface
 {
-    public const ID_SEPARATOR = '::';
+    public const ID_SEPARATOR = '@';
 
     use EntityTrait;
 
