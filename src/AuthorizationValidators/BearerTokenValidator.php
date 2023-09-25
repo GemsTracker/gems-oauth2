@@ -12,18 +12,17 @@ use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
-use League\OAuth2\Server\AuthorizationValidators\AuthorizationValidatorInterface;
 use League\OAuth2\Server\CryptKey;
 use League\OAuth2\Server\CryptTrait;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class BearerTokenValidator implements AuthorizationValidatorInterface
+class BearerTokenValidator extends \League\OAuth2\Server\AuthorizationValidators\BearerTokenValidator
 {
     use CryptTrait;
 
-    protected CryptKey $publicKey;
+    protected $publicKey;
 
     private Configuration $jwtConfiguration;
     public function __construct(
