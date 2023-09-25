@@ -22,6 +22,7 @@ trait TranslateScopes
     public function addScope(ScopeEntityInterface $scope)
     {
         $this->scopes[$scope->getIdentifier()] = $scope;
+        $this->scopeList = join(',', array_keys($this->scopes));
     }
 
     public function getScopes()
