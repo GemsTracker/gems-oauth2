@@ -3,7 +3,7 @@
 
 namespace Gems\OAuth2\Config\Db\Seed;
 
-use SeedInterface;
+use Gems\Db\Migration\SeedInterface;
 
 class Scopes implements SeedInterface
 {

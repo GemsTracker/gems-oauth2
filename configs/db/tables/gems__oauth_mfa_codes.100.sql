@@ -13,7 +13,7 @@ CREATE TABLE if not exists gems__oauth_mfa_codes (
   created                     timestamp not null default current_timestamp,
 
    PRIMARY KEY (id),
-   INDEX(user_id),
+   INDEX(user_id)
 )
     ENGINE=InnoDB
     CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci';
