@@ -6,9 +6,9 @@ declare(strict_types=1);
 namespace Gems\OAuth2\Factory;
 
 
+use Gems\OAuth2\AuthorizationValidators\BearerTokenValidator;
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
-use League\OAuth2\Server\AuthorizationValidators\BearerTokenValidator;
 use League\OAuth2\Server\CryptKey;
 use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
 use League\OAuth2\Server\ResourceServer;
