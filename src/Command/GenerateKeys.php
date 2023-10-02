@@ -18,7 +18,8 @@ class GenerateKeys extends Command
         $keys = $keyGenerator->generateKeys();
 
         foreach($keys as $keyName => $key) {
-            $output->writeln(sprintf('%s: %s', $keyName, $key));
+            $oneLineKey = str_replace("\n", '', $key);
+            $output->writeln(sprintf("%s:\n%s", $keyName, $oneLineKey));
         }
 
         return static::SUCCESS;
