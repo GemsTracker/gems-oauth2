@@ -16,27 +16,11 @@ class PrivateKeyGenerator
      */
     protected int $fileMode = 0600;
 
-    /**
-     * Location for the private key
-     *
-     * @var string
-     */
-    protected string $privateKeyLocation;
-
-    /**
-     * Location for the private key
-     *
-     * @var string
-     */
-    protected string $publicKeyLocation;
-
-    public function __construct(string $privateKeyLocation, string $publicKeyLocation)
+    public function __construct()
     {
-        $this->privateKeyLocation = $privateKeyLocation;
-        $this->publicKeyLocation = $publicKeyLocation;
     }
 
-    public function generateKeys(): bool
+    public function generateKeys(): array
     {
         $config = [
             'private_key_bits' => $this->bits,
@@ -50,14 +34,24 @@ class PrivateKeyGenerator
         $publicKeyInfo = openssl_pkey_get_details($resource);
         $publicKey = $publicKeyInfo['key'];
 
+        return [
+            'public' => $publicKey,
+            'private' => $privateKey,
+        ];
+    }
+
+    public function generateKeyFiles(string $privateKeyLocation, string $publicKeyLocation): bool
+    {
+        $keys = $this->generateKeys();
+
         $filesystem = new Filesystem();
 
         try {
-            $filesystem->dumpFile($this->privateKeyLocation, $privateKey);
-            $filesystem->chmod($this->privateKeyLocation, $this->fileMode);
+            $filesystem->dumpFile($privateKeyLocation, $keys['private']);
+            $filesystem->chmod($privateKeyLocation, $this->fileMode);
 
-            $filesystem->dumpFile($this->publicKeyLocation, $publicKey);
-            $filesystem->chmod($this->publicKeyLocation, $this->fileMode);
+            $filesystem->dumpFile($publicKeyLocation, $keys['public']);
+            $filesystem->chmod($publicKeyLocation, $this->fileMode);
 
         } catch(\Exception $e) {
             echo $e->getMessage();

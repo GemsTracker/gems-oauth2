@@ -2,6 +2,7 @@
 
 namespace Gems\OAuth2;
 
+use Gems\OAuth2\Command\GenerateKeyFiles;
 use Gems\OAuth2\Command\GenerateKeys;
 use Gems\OAuth2\Factory\AccessTokenRepositoryFactory;
 use Gems\OAuth2\Factory\AuthCodeGrantFactory;
@@ -72,6 +73,7 @@ class ConfigProvider
         return [
             'commands' => [
                 GenerateKeys::class,
+                GenerateKeyFiles::class,
             ],
         ];
     }
