@@ -7,9 +7,11 @@ namespace Gems\OAuth2\Factory;
 
 
 use Gems\OAuth2\AuthorizationValidators\BearerTokenValidator;
+use Gems\OAuth2\Repository\KeyRepository;
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use League\OAuth2\Server\CryptKey;
+use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
 use League\OAuth2\Server\ResourceServer;
 
@@ -27,11 +29,12 @@ class ResourceServerFactory implements FactoryInterface
 
         $config = $container->get('config');
 
-        $certificates        = $config['certificates'];
-        $passPhrase          = array_key_exists('passPhrase', $certificates) ? $certificates['passPhrase'] : null;
-        $keyPermissionsCheck = array_key_exists('keyPermissionsCheck', $certificates) ? $certificates['keyPermissionsCheck'] : true;
+        $keyRepository = new KeyRepository();
+        $certificates = $keyRepository->getCertificates($config, false);
 
-        $publicKey = new CryptKey($certificates['public'], $passPhrase, $keyPermissionsCheck);
+        $keyPermissionsCheck = $config['certificates']['keyPermissionsCheck'] ?? null;
+
+        $publicKey = new CryptKey($certificates['public'], $certificates['passPhrase'], $keyPermissionsCheck);
 
         $validator = new BearerTokenValidator($accessTokenRepository);
 

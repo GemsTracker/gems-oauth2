@@ -5,6 +5,7 @@ namespace Gems\OAuth2\Factory;
 
 use Gems\OAuth2\Repository\AccessTokenRepository;
 use Gems\OAuth2\Repository\ClientRepository;
+use Gems\OAuth2\Repository\KeyRepository;
 use Gems\OAuth2\Repository\ScopeRepository;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Psr\Container\ContainerInterface;
@@ -26,9 +27,9 @@ class AuthorizationServerFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null): AuthorizationServer
     {
         $config = $container->get('config');
-        if (!isset($config['certificates'], $config['certificates']['private'])) {
-            throw new \RuntimeException('Missing config values for certificates');
-        }
+        $keyRepository = new KeyRepository();
+        $certificates = $keyRepository->getCertificates($config, true);
+
         if (!isset($config['app'], $config['app']['key'])) {
             throw new \RuntimeException('Missing config values for app key');
         }
@@ -37,7 +38,7 @@ class AuthorizationServerFactory implements FactoryInterface
         $clientRepository = $container->get(ClientRepository::class);
         $scopeRepository = $container->get(ScopeRepository::class);
 
-        $this->server = new AuthorizationServer($clientRepository, $accessTokenRepository, $scopeRepository, $config['certificates']['private'], $config['app']['key']);
+        $this->server = new AuthorizationServer($clientRepository, $accessTokenRepository, $scopeRepository, $certificates['private'], $config['app']['key']);
 
         if(isset($config['oauth2']['grants'])) {
             $this->addGrants($config['oauth2']['grants'], $container);
