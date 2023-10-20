@@ -160,11 +160,11 @@ class ConfigProvider
     {
         return [
             'grants' => [
-                'authorization_code' => [
+                /*'authorization_code' => [
                     'class' => AuthCodeGrant::class,
                     'code_valid' => 'PT10M', // Time an auth code can be exchanged for a token
                     'token_valid' => 'PT1H', // Time a token is valid
-                ],
+                ],*/
 
                 'password' => [
                     'class' => PasswordGrant::class,
