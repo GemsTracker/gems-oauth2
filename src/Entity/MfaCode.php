@@ -19,7 +19,7 @@ class MfaCode implements MfaCodeEntityInterface, EntityInterface
     use TokenData;
 
     #[Id, GeneratedValue,Column]
-    private int $id;
+    private int $id; // @phpstan-ignore property.unused
 
     #[Column(length: 100)]
     private string $mfaCode;
@@ -31,7 +31,7 @@ class MfaCode implements MfaCodeEntityInterface, EntityInterface
     private User $user;
 
     #[Column]
-    private string $clientId;
+    private string $clientId; // @phpstan-ignore property.onlyWritten
 
     #[Column]
     protected ?string $scopeList;

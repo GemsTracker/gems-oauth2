@@ -26,7 +26,7 @@ class AccessToken implements AccessTokenEntityInterface, EntityInterface
     use TokenData;
 
     #[Id, GeneratedValue, Column]
-    private int $id;
+    private int $id; // @phpstan-ignore property.onlyWritten
 
     #[Column(length: 100)]
     private string $accessToken;
@@ -35,7 +35,7 @@ class AccessToken implements AccessTokenEntityInterface, EntityInterface
     private User $user;
 
     #[Column]
-    private string $clientId;
+    private string $clientId; // @phpstan-ignore property.onlyWritten
 
     #[Column(name: 'scopes', nullable: true)]
     protected ?string $scopeList;

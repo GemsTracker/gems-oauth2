@@ -17,16 +17,16 @@ use League\OAuth2\Server\Entities\Traits\ScopeTrait;
 class Scope implements ScopeEntityInterface, EntityInterface
 {
     #[Id, GeneratedValue,Column]
-    private int $id;
+    private int $id; // @phpstan-ignore property.unused
 
     #[Column]
     private string $name;
 
     #[Column]
-    private string $description;
+    private string $description; // @phpstan-ignore property.unused
 
     #[Column]
-    private bool $active;
+    private bool $active; // @phpstan-ignore property.unused
 
     public function getIdentifier(): string
     {

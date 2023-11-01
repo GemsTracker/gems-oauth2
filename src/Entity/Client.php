@@ -18,7 +18,7 @@ use League\OAuth2\Server\Entities\Traits\ClientTrait;
 class Client implements ClientEntityInterface, EntityInterface
 {
     #[Id, GeneratedValue,Column]
-    private int $id;
+    private int $id; // @phpstan-ignore property.unused
 
     #[Column]
     private string $clientId;
@@ -30,7 +30,7 @@ class Client implements ClientEntityInterface, EntityInterface
     private string $secret;
 
     #[Column]
-    private bool $active;
+    private bool $active; // @phpstan-ignore property.unused
 
     #[Column]
     private bool $confidential;
