@@ -53,7 +53,7 @@ class AccessToken implements AccessTokenEntityInterface, EntityInterface
      *
      * @return Token
      */
-    private function convertToJWT()
+    private function convertToJWT() // @phpstan-ignore method.unused
     {
         $this->initJwtConfiguration();
 
