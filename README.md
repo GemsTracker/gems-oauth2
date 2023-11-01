@@ -3,7 +3,7 @@ Implementation of the [League OAuth2 server](https://oauth2.thephpleague.com/) f
 
 ## Installation
 ```bash
- composer require gemstracker\gems-oauth2
+ composer require gemstracker/gems-oauth2
 ```
 
 ## Configuration
