@@ -100,4 +100,12 @@ class Client implements ClientEntityInterface, EntityInterface
     {
         $this->redirect = $redirect;
     }
+
+    /**
+     * @param string $secret
+     */
+    public function setSecret(string $secret): void
+    {
+        $this->secret = $secret;
+    }
 }

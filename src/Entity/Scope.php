@@ -42,6 +42,14 @@ class Scope implements ScopeEntityInterface, EntityInterface
     }
 
     /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
      * Serialize the object to the scopes string identifier when using json_encode().
      *
      * @return string
