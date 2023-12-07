@@ -9,6 +9,7 @@ use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Token;
+use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
@@ -29,6 +30,7 @@ class BearerTokenValidator extends \League\OAuth2\Server\AuthorizationValidators
         protected readonly AccessTokenRepositoryInterface $accessTokenRepository,
         protected readonly DateInterval|null $jwtValidAtDateLeeway = null
     ) {
+        parent::__construct($accessTokenRepository, $jwtValidAtDateLeeway);
     }
 
     /**
@@ -77,6 +79,9 @@ class BearerTokenValidator extends \League\OAuth2\Server\AuthorizationValidators
 
         try {
             // Attempt to parse the JWT
+            /**
+             * @var Plain $token
+             */
             $token = $this->jwtConfiguration->parser()->parse($jwt);
         } catch (\Lcobucci\JWT\Exception $exception) {
             throw OAuthServerException::accessDenied($exception->getMessage(), null, $exception);
@@ -114,7 +119,7 @@ class BearerTokenValidator extends \League\OAuth2\Server\AuthorizationValidators
     /**
      * Convert single record arrays into strings to ensure backwards compatibility between v4 and v3.x of lcobucci/jwt
      *
-     * @param mixed $aud
+     * @param array|string $aud
      *
      * @return array|string
      */
@@ -123,7 +128,7 @@ class BearerTokenValidator extends \League\OAuth2\Server\AuthorizationValidators
         return \is_array($aud) && \count($aud) === 1 ? $aud[0] : $aud;
     }
 
-    protected function getAdditionalAttributesForRequest(ServerRequestInterface $request, Token $token): ServerRequestInterface
+    protected function getAdditionalAttributesForRequest(ServerRequestInterface $request, Plain $token): ServerRequestInterface
     {
         $claims = $token->claims();
 

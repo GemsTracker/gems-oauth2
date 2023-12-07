@@ -78,7 +78,7 @@ class AuthorizeHandler implements RequestHandlerInterface
                 }
 
                 // Check auth time
-                $templateData['errors'] = ['The Code you have entered is invalid'];
+                $templateData['errors'][] = ['The Code you have entered is invalid'];
                 $templateData['otp_method'] = $this->userRepository->get2faMethod($user);
                 $flashMessages->prolongFlash();
 

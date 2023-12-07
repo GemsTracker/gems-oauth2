@@ -49,7 +49,7 @@ class PasswordGrant extends \League\OAuth2\Server\Grant\PasswordGrant
      *
      * @param DateInterval           $mfaCodeTTL
      * @param ClientEntityInterface  $client
-     * @param string                 $user
+     * @param User                 $user
      * @param string            $challengeType
      * @param ScopeEntityInterface[] $scopes
      *
