@@ -2,7 +2,11 @@
 
 namespace Gems\OAuth2\Repository;
 
+use Doctrine\ORM\Query\Expr\Join;
+use Gems\OAuth2\Entity\AuthUser;
 use Gems\OAuth2\Entity\EntityInterface;
+use Gems\OAuth2\Entity\Group;
+use Gems\OAuth2\Entity\Staff;
 use Gems\OAuth2\Entity\User;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Exception\OAuthServerException;
@@ -46,10 +50,9 @@ class UserRepository extends DoctrineEntityRepositoryAbstract implements UserRep
 
     public function getUserEntityByUserCredentials($username, $password, $grantType, ClientEntityInterface $clientEntity): User
     {
-        $user = $this->getUserByIdentifier($username);
+        $user = $this->getAuthUserByIdentifier($username);
 
-        // TODO ADD Authentication check!
-        if ($user instanceof User) {
+        if ($user instanceof AuthUser && $user->verifyPassword($password)) {
             return $user;
         }
 
@@ -66,6 +69,45 @@ class UserRepository extends DoctrineEntityRepositoryAbstract implements UserRep
         if (count($userCredentials) == 2) {
             list($username, $organizationId) = $userCredentials;
             return $this->getUser($username, (int)$organizationId);
+        }
+
+        throw OAuthServerException::accessDenied('No user with supplied credentials could be found');
+    }
+
+    public function getAuthUserByIdentifier(string|int $username): AuthUser
+    {
+        $queryBuilder = $this->_em->createQueryBuilder();
+
+        $queryBuilder
+            ->from(AuthUser::class, 'user')
+            ->innerJoin(Staff::class, 'staff', Join::WITH, 'user.login = staff.loginName AND user.organizationId = staff.organizationId')
+            ->innerJoin(Group::class, 'permissionGroup', Join::WITH, 'staff.group = permissionGroup.id')
+            ->select(['user', 'permissionGroup.roleName']);
+
+        if (is_int($username)) {
+            $queryBuilder
+                ->where('user.id = :id')
+                ->setParameter('id', $username);
+        } else {
+            $userCredentials = explode(User::ID_SEPARATOR, $username);
+            if (count($userCredentials) < 2) {
+                throw OAuthServerException::accessDenied('No user with supplied credentials could be found');
+            }
+            list($username, $organizationId) = $userCredentials;
+
+            $queryBuilder
+                ->where('user.login = :login')
+                ->andWhere('user.organizationId = :organizationId')
+                ->setParameter('login', $username)
+                ->setParameter('organizationId', $organizationId);
+        }
+        $userData = $queryBuilder->getQuery()->getOneOrNullResult();
+
+        if (is_array($userData) && isset($userData[0], $userData['roleName'])) {
+            $user = $userData[0];
+            $user->setRoleName($userData['roleName']);
+
+            return $user;
         }
 
         throw OAuthServerException::accessDenied('No user with supplied credentials could be found');

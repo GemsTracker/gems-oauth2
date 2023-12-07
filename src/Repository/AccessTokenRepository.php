@@ -40,7 +40,7 @@ class AccessTokenRepository extends DoctrineEntityRepositoryAbstract implements 
         }
 
 
-        $user = $this->userRepository->getUserByIdentifier($userIdentifier);
+        $user = $this->userRepository->getAuthUserByIdentifier($userIdentifier);
         if (!$user instanceof User) {
             throw new OAuthServerException('User not found', 400, 'access_token_error');
         }
