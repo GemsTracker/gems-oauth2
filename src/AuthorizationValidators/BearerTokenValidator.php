@@ -106,7 +106,8 @@ class BearerTokenValidator extends \League\OAuth2\Server\AuthorizationValidators
             ->withAttribute('oauth_access_token_id', $claims->get('jti'))
             ->withAttribute('oauth_client_id', $this->convertSingleRecordAudToString($claims->get('aud')))
             ->withAttribute('oauth_user_id', $claims->get('sub'))
-            ->withAttribute('oauth_scopes', $claims->get('scopes'));
+            ->withAttribute('oauth_scopes', $claims->get('scopes'))
+            ->withAttribute('user_role', $claims->get('role'));
 
 
         // Return the request with additional attributes
