@@ -70,7 +70,7 @@ class AccessToken implements AccessTokenEntityInterface, EntityInterface
             ->withClaim('scopes', $this->getScopes());
 
         if ($user instanceof AuthUser) {
-            $jwt->withClaim('role', $user->getRoleName());
+            $jwt = $jwt->withClaim('role', $user->getRoleName());
         }
 
         return $jwt->getToken($this->jwtConfiguration->signer(), $this->jwtConfiguration->signingKey());
