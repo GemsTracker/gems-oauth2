@@ -19,7 +19,7 @@ use League\OAuth2\Server\Entities\RefreshTokenEntityInterface;
 class RefreshToken implements RefreshTokenEntityInterface, EntityInterface
 {
     #[Id, GeneratedValue,Column]
-    private int $id;
+    private int $id; // @phpstan-ignore property.unused
 
     #[Column]
     private string $refreshToken;

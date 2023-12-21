@@ -20,7 +20,7 @@ class AuthCode implements AuthCodeEntityInterface, EntityInterface
     use TokenData;
 
     #[Id, GeneratedValue,Column]
-    private int $id;
+    private int $id; // @phpstan-ignore property.unused
 
     #[Column(length: 100)]
     private string $authCode;
@@ -29,7 +29,7 @@ class AuthCode implements AuthCodeEntityInterface, EntityInterface
     private int $userId;
 
     #[Column]
-    private string $clientId;
+    private string $clientId; // @phpstan-ignore property.onlyWritten
 
     #[Column(name: 'scopes', nullable: true)]
     protected ?string $scopeList;
