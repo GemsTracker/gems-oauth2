@@ -82,13 +82,15 @@ class MfaCodeGrant extends PasswordGrant
             throw OAuthServerException::invalidRequest('otp');
         }
 
-        try {
-            $this->userRepository->verifyOtp($user, $otp);
+        // TODO: Add verify for OTP
+        /*try {
+
+            //$this->userRepository->verifyOtp($user, $otp);
         } catch (ThrottleException $e) {
             throw new OAuthServerException($e->getMessage(), 41, 'throttle', 429);
         } catch (AuthException $e) {
             throw OAuthServerException::accessDenied($e->getMessage());
-        }
+        }*/
 
         /*if (!$this->userRepository->verifyOtp($user, $otp)) {
             throw OAuthServerException::accessDenied('otp code not valid');
@@ -126,7 +128,7 @@ class MfaCodeGrant extends PasswordGrant
             throw OAuthServerException::invalidRequest('mfa_token', 'Mfa token malformed');
         }
 
-        if (\time() > $mfaCodePayload->expire_time) {
+        if (!\property_exists($mfaCodePayload,'expire_time') || \time() > $mfaCodePayload->expire_time) {
             throw OAuthServerException::invalidRequest('mfa_token', 'Mfa token has expired');
         }
 
@@ -134,7 +136,7 @@ class MfaCodeGrant extends PasswordGrant
             throw OAuthServerException::invalidRequest('mfa_token', 'Mfa token has been revoked');
         }
 
-        if ($mfaCodePayload->client_id !== $client->getIdentifier()) {
+        if (!\property_exists($mfaCodePayload,'client_id') || $mfaCodePayload->client_id !== $client->getIdentifier()) {
             throw OAuthServerException::invalidRequest('mfa_token', 'Mfa token was not issued to this client');
         }
     }

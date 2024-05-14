@@ -25,4 +25,19 @@ class UserPassword implements EntityInterface
     {
         return $this->password;
     }
+
+    public function getUserId(): int
+    {
+        return $this->userId;
+    }
+
+    public function setPassword(?string $password): void
+    {
+        $this->password = $password;
+    }
+
+    public function setUserId(int $userId): void
+    {
+        $this->userId = $userId;
+    }
 }

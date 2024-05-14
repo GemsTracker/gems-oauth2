@@ -19,7 +19,7 @@ use League\OAuth2\Server\Entities\UserEntityInterface;
 class AuthUser extends User
 {
     #[OneToOne(targetEntity: UserPassword::class)]
-    #[JoinColumn(name: 'gul_id_user', referencedColumnName: 'gup_id_user')]
+    #[JoinColumn(name: 'gul_id_user', referencedColumnName: 'gup_id_user', nullable: false)]
     protected UserPassword $password;
 
     protected string|null $roleName = null;

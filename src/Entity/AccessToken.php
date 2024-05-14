@@ -31,7 +31,7 @@ class AccessToken implements AccessTokenEntityInterface, EntityInterface
     #[Column(length: 100)]
     private string $accessToken;
 
-    #[ManyToOne(targetEntity: User::class), JoinColumn(name: 'user_id', referencedColumnName: 'gul_id_user')]
+    #[ManyToOne(targetEntity: User::class), JoinColumn(name: 'user_id', referencedColumnName: 'gul_id_user', nullable: false)]
     private User $user;
 
     #[Column]
@@ -126,5 +126,13 @@ class AccessToken implements AccessTokenEntityInterface, EntityInterface
     // Method stub, as we use setUser instead
     public function setUserIdentifier($identifier): void
     {
+    }
+
+    /**
+     * Generate a string representation from the access token
+     */
+    public function __toString()
+    {
+        return $this->convertToJWT()->toString();
     }
 }

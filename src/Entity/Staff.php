@@ -22,7 +22,7 @@ class Staff
     protected int $organizationId;
 
     #[OneToOne(targetEntity: Group::class)]
-    #[JoinColumn(name: 'gsf_id_primary_group', referencedColumnName: 'ggp_id_group')]
+    #[JoinColumn(name: 'gsf_id_primary_group', referencedColumnName: 'ggp_id_group', nullable: false)]
     protected Group $group;
 
     /**

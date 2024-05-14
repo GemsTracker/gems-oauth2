@@ -27,13 +27,13 @@ class MfaCode implements MfaCodeEntityInterface, EntityInterface
     #[Column(length: 32)]
     private string $authMethod;
 
-    #[ManyToOne(targetEntity: User::class), JoinColumn(name: 'user_id', referencedColumnName: 'gul_id_user')]
+    #[ManyToOne(targetEntity: User::class), JoinColumn(name: 'user_id', referencedColumnName: 'gul_id_user', nullable: false)]
     private User $user;
 
     #[Column]
     private string $clientId;
 
-    #[Column]
+    #[Column(name: 'scopes', nullable: true)]
     protected ?string $scopeList;
 
     #[Column]

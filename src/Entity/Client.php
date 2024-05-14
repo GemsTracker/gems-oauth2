@@ -70,6 +70,14 @@ class Client implements ClientEntityInterface, EntityInterface
     }
 
     /**
+     * @param bool $active
+     */
+    public function setActive(bool $active): void
+    {
+        $this->active = $active;
+    }
+
+    /**
      * @param string $clientId
      */
     public function setClientId(string $clientId): void
@@ -99,5 +107,10 @@ class Client implements ClientEntityInterface, EntityInterface
     public function setRedirect(?string $redirect): void
     {
         $this->redirect = $redirect;
+    }
+
+    public function setSecret(string $secret): void
+    {
+        $this->secret = $secret;
     }
 }

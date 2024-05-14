@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Gems\OAuth2\Handler;
 
+use DateTimeImmutable;
 use Gems\OAuth2\Entity\User;
 use Gems\OAuth2\Exception\AuthException;
 use Gems\OAuth2\Exception\ThrottleException;
@@ -57,7 +58,7 @@ class AuthorizeHandler implements RequestHandlerInterface
     {
         $templateData = [];
 
-        $group = $request->getAttribute('group');
+        /*$group = $request->getAttribute('group');
 
         $templateData['group'] = $group;
 
@@ -79,7 +80,7 @@ class AuthorizeHandler implements RequestHandlerInterface
 
                 // Check auth time
                 $templateData['errors'][] = ['The Code you have entered is invalid'];
-                $templateData['otp_method'] = $this->userRepository->get2faMethod($user);
+                $templateData['otp_method'] = $this->userRepository->getMfaMethod($user);
                 $flashMessages->prolongFlash();
 
                 return new Response\HtmlResponse($this->template->render('auth::login_otp', $templateData));
@@ -95,7 +96,7 @@ class AuthorizeHandler implements RequestHandlerInterface
                     if ($user instanceof UserEntityInterface) {
                         $flashMessages = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
                         $flashMessages->flash($this->flashName, $user->getIdentifier());
-                        $flashMessages->flash($this->flashTimeName, new \DateTimeImmutable());
+                        $flashMessages->flash($this->flashTimeName, new DateTimeImmutable());
 
                         try {
                             $this->userRepository->sendOtp($user);
@@ -105,7 +106,7 @@ class AuthorizeHandler implements RequestHandlerInterface
                             $templateData['errors'][] = $e->getMessage();
                         }
 
-                        $templateData['otp_method'] = $this->userRepository->get2faMethod($user);
+                        $templateData['otp_method'] = $this->userRepository->getMfaMethod($user);
 
                         return new Response\HtmlResponse($this->template->render('auth::login_otp', $templateData));
                     }
@@ -116,7 +117,7 @@ class AuthorizeHandler implements RequestHandlerInterface
                     $templateData['errors'] = [$e->getHint()];
                 }
             }
-        }
+        }*/
         return new Response\HtmlResponse($this->template->render('auth::login', $templateData));
     }
 

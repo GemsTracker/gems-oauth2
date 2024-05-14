@@ -29,6 +29,9 @@ class User implements UserEntityInterface, EntityInterface
     #[Column(name: 'gul_id_organization')]
     protected int $organizationId;
 
+    #[Column(name: 'gul_enable_2factor')]
+    protected bool $mfaEnabled;
+
     public function getIdentifier()
     {
         return $this->id;
@@ -53,5 +56,15 @@ class User implements UserEntityInterface, EntityInterface
     public function getOrganizationId(): int
     {
         return $this->organizationId;
+    }
+
+    public function isMfaEnabled(): bool
+    {
+        return $this->mfaEnabled;
+    }
+
+    public function setMfaEnabled(bool $mfaEnabled): void
+    {
+        $this->mfaEnabled = $mfaEnabled;
     }
 }

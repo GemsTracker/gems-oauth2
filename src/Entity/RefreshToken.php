@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
+use Gems\OAuth2\Exception\AuthException;
 use Gems\OAuth2\Repository\RefreshTokenRepository;
 use League\OAuth2\Server\Entities\AccessTokenEntityInterface;
 use League\OAuth2\Server\Entities\RefreshTokenEntityInterface;
@@ -24,8 +25,8 @@ class RefreshToken implements RefreshTokenEntityInterface, EntityInterface
     #[Column]
     private string $refreshToken;
 
-    #[ManyToOne(targetEntity: AccessToken::class), JoinColumn(name: 'access_token')]
-    private AccessTokenEntityInterface $accessToken;
+    #[ManyToOne(targetEntity: AccessToken::class), JoinColumn(name: 'access_token', nullable: false)]
+    private AccessToken $accessToken;
 
     #[Column]
     private bool $revoked;
@@ -67,6 +68,9 @@ class RefreshToken implements RefreshTokenEntityInterface, EntityInterface
      */
     public function setAccessToken(AccessTokenEntityInterface $accessToken): void
     {
+        if (!$accessToken instanceof AccessToken) {
+            throw new AuthException('Incorrect access token for refreshToken');
+        }
         $this->accessToken = $accessToken;
     }
 

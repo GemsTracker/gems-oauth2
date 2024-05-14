@@ -36,9 +36,21 @@ class Scope implements ScopeEntityInterface, EntityInterface
     /**
      * @return string
      */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+    /**
+     * @return string
+     */
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->active;
     }
 
     /**
@@ -49,5 +61,20 @@ class Scope implements ScopeEntityInterface, EntityInterface
     public function jsonSerialize(): mixed
     {
         return $this->getIdentifier();
+    }
+
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function setActive(bool $active): void
+    {
+        $this->active = $active;
     }
 }

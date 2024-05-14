@@ -11,8 +11,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'oauth2:generate-key-files', description: 'Generate public and private key for this application. Paths configured in the certificate namespace of config')]
 class GenerateKeyFiles extends Command
 {
+    /**
+     * @var mixed[]
+     */
     private array $config;
 
+    /**
+     * @param mixed[] $config
+     */
     public function __construct(array $config)
     {
         parent::__construct();
