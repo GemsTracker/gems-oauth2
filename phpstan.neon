@@ -2,3 +2,7 @@ parameters:
     level: 5
     paths:
         - src
+    doctrine:
+        objectManagerLoader: tests/doctrine-object-manager.php
+    parallel:
+        maximumNumberOfProcesses: 1

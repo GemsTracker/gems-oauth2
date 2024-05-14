@@ -21,10 +21,55 @@
     "symfony/filesystem": "^6.1"
   },
   "require-dev": {
+    "gemstracker/gemstracker": "2.x-dev",
     "phpunit/phpunit": "^9",
-    "phpstan/phpstan": "^1.8",
-    "vimeo/psalm": "^5.8"
+    "phpstan/phpstan": "^1.11",
+    "phpstan/extension-installer": "^1.3",
+    "phpstan/phpstan-doctrine": "^1.3"
   },
   "minimum-stability": "dev",
-  "prefer-stable": true
+  "prefer-stable": true,
+  "config": {
+    "allow-plugins": {
+      "phpstan/extension-installer": true
+    }
+  },
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/gemstracker/gems-api.git"
+    },
+    {
+      "type": "git",
+      "url": "https://github.com/gemstracker/gems-fhir-api.git"
+    },
+    {
+      "type": "git",
+      "url": "https://github.com/MagnaFacta/zalt-html.git"
+    },
+    {
+      "type": "git",
+      "url": "https://github.com/MagnaFacta/zalt-laminas-filter.git"
+    },
+    {
+      "type": "git",
+      "url": "https://github.com/MagnaFacta/zalt-laminas-validator.git"
+    },
+    {
+      "type": "git",
+      "url": "https://github.com/MagnaFacta/zalt-late.git"
+    },
+    {
+      "type": "git",
+      "url": "https://github.com/MagnaFacta/zalt-loader.git"
+    },
+    {
+      "type": "git",
+      "url": "https://github.com/MagnaFacta/zalt-model.git"
+    },
+    {
+      "type": "git",
+      "url": "https://github.com/MagnaFacta/zalt-util.git"
+    }
+  ]
 }
