@@ -2,6 +2,7 @@
 
 namespace Gems\OAuth2;
 
+use Gems\Factory\MonologFactory;
 use Gems\OAuth2\Command\GenerateKeyFiles;
 use Gems\OAuth2\Command\GenerateKeys;
 use Gems\OAuth2\Factory\AccessTokenRepositoryFactory;
@@ -13,6 +14,7 @@ use Gems\OAuth2\Factory\ResourceServerFactory;
 use Gems\OAuth2\Grant\MfaCodeGrant;
 use Gems\OAuth2\Grant\PasswordGrant;
 use Gems\OAuth2\Handler\AccessTokenHandler;
+use Gems\OAuth2\Log\OAuthLogger;
 use Gems\OAuth2\Repository\AccessTokenRepository;
 use Gems\OAuth2\Repository\AuthCodeRepository;
 use Gems\OAuth2\Repository\ClientRepository;
@@ -31,6 +33,7 @@ use League\OAuth2\Server\Repositories\RefreshTokenRepositoryInterface;
 use League\OAuth2\Server\Repositories\ScopeRepositoryInterface;
 use League\OAuth2\Server\Repositories\UserRepositoryInterface;
 use League\OAuth2\Server\ResourceServer;
+use Psr\Log\LogLevel;
 
 class ConfigProvider
 {
@@ -44,6 +47,7 @@ class ConfigProvider
             'console' => $this->getConsoleSettings(),
             'doctrine' => $this->getDoctrineSettings(),
             'dependencies'  => $this->getDependencies(),
+            'log'           => $this->getLoggers(),
             'migrations'    => $this->getMigrations(),
             'oauth2'   => $this->getOAuth2Settings(),
             'routes' => $this->getRoutes(),
@@ -102,6 +106,9 @@ class ConfigProvider
                 AuthCodeGrant::class => AuthCodeGrantFactory::class,
                 PasswordGrant::class => PasswordGrantFactory::class,
                 MfaCodeGrant::class => PasswordGrantFactory::class,
+
+                // Logger
+                OAuthLogger::class => MonologFactory::class,
             ],
             'aliases' => [
                 AccessTokenRepositoryInterface::class => AccessTokenRepository::class,
@@ -149,6 +156,23 @@ class ConfigProvider
         }
 
         return $migrations;
+    }
+
+    protected function getLoggers(): array
+    {
+        return [
+            OAuthLogger::class => [
+                'writers' => [
+                    'stream' => [
+                        'name' => 'stream',
+                        'priority' => LogLevel::DEBUG,
+                        'options' => [
+                            'stream' => 'data/logs/oauth.log',
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
