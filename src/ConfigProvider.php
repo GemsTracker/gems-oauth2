@@ -14,7 +14,6 @@ use Gems\OAuth2\Factory\ResourceServerFactory;
 use Gems\OAuth2\Grant\MfaCodeGrant;
 use Gems\OAuth2\Grant\PasswordGrant;
 use Gems\OAuth2\Handler\AccessTokenHandler;
-use Gems\OAuth2\Log\OAuthLogger;
 use Gems\OAuth2\Repository\AccessTokenRepository;
 use Gems\OAuth2\Repository\AuthCodeRepository;
 use Gems\OAuth2\Repository\ClientRepository;
@@ -37,6 +36,8 @@ use Psr\Log\LogLevel;
 
 class ConfigProvider
 {
+    public const OAUTH_LOGGER = 'oauth-log';
+
     /**
      * @return mixed[]
      */
@@ -106,9 +107,6 @@ class ConfigProvider
                 AuthCodeGrant::class => AuthCodeGrantFactory::class,
                 PasswordGrant::class => PasswordGrantFactory::class,
                 MfaCodeGrant::class => PasswordGrantFactory::class,
-
-                // Logger
-                OAuthLogger::class => MonologFactory::class,
             ],
             'aliases' => [
                 AccessTokenRepositoryInterface::class => AccessTokenRepository::class,
@@ -161,7 +159,7 @@ class ConfigProvider
     protected function getLoggers(): array
     {
         return [
-            OAuthLogger::class => [
+            static::OAUTH_LOGGER => [
                 'writers' => [
                     'stream' => [
                         'name' => 'stream',

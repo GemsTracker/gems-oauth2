@@ -4,22 +4,25 @@ declare(strict_types=1);
 
 namespace Gems\OAuth2\Handler;
 
-use Gems\OAuth2\Log\OAuthLogger;
+use Gems\Log\Loggers;
+use Gems\OAuth2\ConfigProvider;
 use Laminas\Diactoros\Response\JsonResponse;
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Log\LoggerInterface;
 
 class AccessTokenHandler implements RequestHandlerInterface
 {
-
+    protected readonly LoggerInterface $logger;
     public function __construct(
         protected readonly AuthorizationServer $server,
-        protected readonly OAuthLogger $logger,
+        Loggers $loggers,
     )
     {
+        $this->logger = $loggers->getLogger(ConfigProvider::OAUTH_LOGGER);
     }
 
     /**
@@ -36,10 +39,6 @@ class AccessTokenHandler implements RequestHandlerInterface
             // Log
             $this->logException($exception, $request);
             return $exception->generateHttpResponse($response);
-        } catch (\Exception $exception) {
-            // Log
-            $this->logException($exception, $request);
-            return new JsonResponse(['unknown_error' => $exception->getMessage()]);
         }
     }
 
