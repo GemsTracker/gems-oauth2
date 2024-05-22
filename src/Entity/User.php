@@ -8,6 +8,8 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\Table;
 use Gems\OAuth2\Repository\UserRepository;
 use League\OAuth2\Server\Entities\Traits\EntityTrait;
@@ -32,6 +34,12 @@ class User implements UserEntityInterface, EntityInterface
     #[Column(name: 'gul_enable_2factor')]
     protected bool $mfaEnabled;
 
+    #[OneToOne(targetEntity: UserPassword::class)]
+    #[JoinColumn(name: 'gul_id_user', referencedColumnName: 'gup_id_user', nullable: false)]
+    protected UserPassword $password;
+
+    protected string|null $roleName = null;
+
     public function getIdentifier()
     {
         return $this->id;
@@ -40,6 +48,11 @@ class User implements UserEntityInterface, EntityInterface
     public function getReadableIdentifier(): string
     {
         return $this->getLogin() . static::ID_SEPARATOR . $this->getOrganizationId();
+    }
+
+    public function getRoleName(): string|null
+    {
+        return $this->roleName;
     }
 
     /**
@@ -66,5 +79,15 @@ class User implements UserEntityInterface, EntityInterface
     public function setMfaEnabled(bool $mfaEnabled): void
     {
         $this->mfaEnabled = $mfaEnabled;
+    }
+
+    public function setRoleName(string $roleName): void
+    {
+        $this->roleName = $roleName;
+    }
+
+    public function verifyPassword(string $password): bool
+    {
+        return password_verify($password, $this->password->getPassword());
     }
 }

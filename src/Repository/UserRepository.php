@@ -3,7 +3,6 @@
 namespace Gems\OAuth2\Repository;
 
 use Doctrine\ORM\Query\Expr\Join;
-use Gems\OAuth2\Entity\AuthUser;
 use Gems\OAuth2\Entity\EntityInterface;
 use Gems\OAuth2\Entity\Group;
 use Gems\OAuth2\Entity\Staff;
@@ -52,7 +51,7 @@ class UserRepository extends DoctrineEntityRepositoryAbstract implements UserRep
     {
         $user = $this->getAuthUserByIdentifier($username);
 
-        if ($user instanceof AuthUser && $user->verifyPassword($password)) {
+        if ($user->verifyPassword($password)) {
             return $user;
         }
 
@@ -74,12 +73,12 @@ class UserRepository extends DoctrineEntityRepositoryAbstract implements UserRep
         throw OAuthServerException::accessDenied('No user with supplied credentials could be found');
     }
 
-    public function getAuthUserByIdentifier(string|int $username): AuthUser
+    public function getAuthUserByIdentifier(string|int $username): User
     {
         $queryBuilder = $this->_em->createQueryBuilder();
 
         $queryBuilder
-            ->from(AuthUser::class, 'user')
+            ->from(User::class, 'user')
             ->innerJoin(Staff::class, 'staff', Join::WITH, 'user.login = staff.loginName AND user.organizationId = staff.organizationId')
             ->innerJoin(Group::class, 'permissionGroup', Join::WITH, 'staff.group = permissionGroup.id')
             ->select(['user', 'permissionGroup.roleName']);

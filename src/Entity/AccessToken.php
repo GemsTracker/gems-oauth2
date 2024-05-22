@@ -67,11 +67,8 @@ class AccessToken implements AccessTokenEntityInterface, EntityInterface
             ->expiresAt($this->getExpiryDateTime())
             ->relatedTo($user->getReadableIdentifier())
             ->withClaim('user_id', $user->getIdentifier())
+            ->withClaim('role', $user->getRoleName())
             ->withClaim('scopes', $this->getScopes());
-
-        if ($user instanceof AuthUser) {
-            $jwt = $jwt->withClaim('role', $user->getRoleName());
-        }
 
         return $jwt->getToken($this->jwtConfiguration->signer(), $this->jwtConfiguration->signingKey());
     }
