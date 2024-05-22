@@ -2,6 +2,7 @@
 
 namespace Gems\OAuth2\Util;
 
+use Gems\Helper\Env;
 use Symfony\Component\Filesystem\Filesystem;
 
 class PrivateKeyGenerator
@@ -25,11 +26,24 @@ class PrivateKeyGenerator
         $config = [
             'private_key_bits' => $this->bits,
         ];
+
+        // Fix for Windows bugs
+        $configFile = Env::get('OPENSSL_CONF');
+        if ($configFile) {
+            $config['config'] = $configFile;
+        }
+
         $resource = openssl_pkey_new($config);
 
+        if (! $resource) {
+            die(openssl_error_string());
+        }
         $privateKey = null;
 
-        openssl_pkey_export($resource, $privateKey);
+        openssl_pkey_export($resource, $privateKey, null, $config);
+        if (! $privateKey) {
+            die(openssl_error_string());
+        }
 
         $publicKeyInfo = openssl_pkey_get_details($resource);
         $publicKey = $publicKeyInfo['key'];
@@ -43,7 +57,6 @@ class PrivateKeyGenerator
     public function generateKeyFiles(string $privateKeyLocation, string $publicKeyLocation): bool
     {
         $keys = $this->generateKeys();
-
         $filesystem = new Filesystem();
 
         try {
