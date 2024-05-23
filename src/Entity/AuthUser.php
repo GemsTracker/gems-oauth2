@@ -20,7 +20,7 @@ class AuthUser extends User
 {
     #[OneToOne(targetEntity: UserPassword::class)]
     #[JoinColumn(name: 'gul_id_user', referencedColumnName: 'gup_id_user', nullable: false)]
-    protected UserPassword $password;
+    protected UserPassword|null $password = null;
 
     protected string|null $roleName = null;
 
