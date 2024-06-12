@@ -4,11 +4,11 @@ namespace Gems\OAuth2\AuthorizationValidators;
 
 use DateInterval;
 use DateTimeZone;
+use Gems\OAuth2\Entity\AccessToken;
 use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
-use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
@@ -22,6 +22,8 @@ use Psr\Http\Message\ServerRequestInterface;
 class BearerTokenValidator extends \League\OAuth2\Server\AuthorizationValidators\BearerTokenValidator
 {
     use CryptTrait;
+
+    public const USER_SESSION_KEY_ATTRIBUTE = 'user_session_key';
 
     protected $publicKey;
 
@@ -109,6 +111,9 @@ class BearerTokenValidator extends \League\OAuth2\Server\AuthorizationValidators
             ->withAttribute('oauth_scopes', $claims->get('scopes'))
             ->withAttribute('user_role', $claims->get('role'));
 
+        if ($claims->get(AccessToken::SESSION_KEY_CLAIM_NAME)) {
+            $request = $request->withAttribute(static::USER_SESSION_KEY_ATTRIBUTE, $claims->get(AccessToken::SESSION_KEY_CLAIM_NAME));
+        }
 
         // Return the request with additional attributes
         return $this->getAdditionalAttributesForRequest(

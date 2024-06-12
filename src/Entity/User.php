@@ -40,6 +40,9 @@ class User implements UserEntityInterface, EntityInterface
 
     protected string|null $roleName = null;
 
+    #[Column(name: 'gul_session_key')]
+    protected string|null $sessionKey;
+
     public function getIdentifier()
     {
         return $this->id;
@@ -69,6 +72,11 @@ class User implements UserEntityInterface, EntityInterface
     public function getOrganizationId(): int
     {
         return $this->organizationId;
+    }
+
+    public function getSessionKey(): string
+    {
+        return $this->sessionKey;
     }
 
     public function isMfaEnabled(): bool

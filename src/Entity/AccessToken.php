@@ -25,6 +25,8 @@ class AccessToken implements AccessTokenEntityInterface, EntityInterface
     use AccessTokenTrait;
     use TokenData;
 
+    public const SESSION_KEY_CLAIM_NAME = 'session_key';
+
     #[Id, GeneratedValue, Column]
     private int $id;
 
@@ -49,6 +51,11 @@ class AccessToken implements AccessTokenEntityInterface, EntityInterface
     private ClientEntityInterface $client;
 
     /**
+     * @var bool Add the current user session key to the access token
+     */
+    private bool $addSessionKey = false;
+
+    /**
      * Generate a JWT from the access token
      *
      * @return Token
@@ -70,7 +77,16 @@ class AccessToken implements AccessTokenEntityInterface, EntityInterface
             ->withClaim('role', $user->getRoleName())
             ->withClaim('scopes', $this->getScopes());
 
+        if ($this->addSessionKey) {
+            $jwt = $jwt->withClaim(static::SESSION_KEY_CLAIM_NAME, $user->getSessionKey());
+        }
+
         return $jwt->getToken($this->jwtConfiguration->signer(), $this->jwtConfiguration->signingKey());
+    }
+
+    public function addSessionKey(): void
+    {
+        $this->addSessionKey = true;
     }
 
     /**
