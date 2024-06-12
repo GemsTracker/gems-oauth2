@@ -35,15 +35,15 @@ class User implements UserEntityInterface, EntityInterface
     protected bool $mfaEnabled;
 
     #[OneToOne(targetEntity: UserPassword::class)]
-    #[JoinColumn(name: 'gul_id_user', referencedColumnName: 'gup_id_user', nullable: false)]
-    protected UserPassword $password;
+    #[JoinColumn(name: 'gul_id_user', referencedColumnName: 'gup_id_user')]
+    protected UserPassword|null $password = null;
 
     protected string|null $roleName = null;
 
     #[Column(name: 'gul_session_key')]
     protected string|null $sessionKey;
 
-    public function getIdentifier()
+    public function getIdentifier(): int
     {
         return $this->id;
     }
@@ -96,6 +96,9 @@ class User implements UserEntityInterface, EntityInterface
 
     public function verifyPassword(string $password): bool
     {
-        return password_verify($password, $this->password->getPassword());
+        if ($this->password) {
+            return password_verify($password, $this->password->getPassword());
+        }
+        return false;
     }
 }

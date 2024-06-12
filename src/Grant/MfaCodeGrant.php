@@ -97,7 +97,7 @@ class MfaCodeGrant extends PasswordGrant
         }*/
 
         // Issue and persist new access token
-        $accessToken = $this->issueAccessToken($accessTokenTTL, $client, $user->getIdentifier(), $finalizedScopes);
+        $accessToken = $this->issueAccessToken($accessTokenTTL, $client, (string)$user->getIdentifier(), $finalizedScopes);
         $this->getEmitter()->emit(new RequestEvent(RequestEvent::ACCESS_TOKEN_ISSUED, $request));
         $responseType->setAccessToken($accessToken);
 
