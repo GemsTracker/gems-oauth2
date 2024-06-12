@@ -40,7 +40,7 @@ class User implements UserEntityInterface, EntityInterface
 
     protected string|null $roleName = null;
 
-    #[Column(name: 'gul_session_key')]
+    #[Column(name: 'gul_session_key', nullable: true)]
     protected string|null $sessionKey;
 
     public function getIdentifier(): int
