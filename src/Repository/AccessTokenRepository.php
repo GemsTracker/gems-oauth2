@@ -30,9 +30,12 @@ class AccessTokenRepository extends DoctrineEntityRepositoryAbstract implements 
     /**
      * @inheritDoc
      */
-    public function getNewToken(ClientEntityInterface $clientEntity, array $scopes, $userIdentifier = null): AccessTokenEntityInterface
+    public function getNewToken(ClientEntityInterface $clientEntity, array $scopes, $userIdentifier = null, bool $addUserSessionKey = false): AccessTokenEntityInterface
     {
         $accessToken = new AccessToken();
+        if ($addUserSessionKey) {
+            $accessToken->addSessionKey();
+        }
         $accessToken->setRevoked(false);
         $accessToken->setClient($clientEntity);
         foreach($scopes as $scope) {

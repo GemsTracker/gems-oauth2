@@ -42,6 +42,9 @@ class User implements UserEntityInterface, EntityInterface
 
     protected string|null $userId = null;
 
+    #[Column(name: 'gul_session_key', nullable: true)]
+    protected string|null $sessionKey;
+
     public function getIdentifier(): int
     {
         return $this->id;
@@ -71,6 +74,11 @@ class User implements UserEntityInterface, EntityInterface
     public function getOrganizationId(): int
     {
         return $this->organizationId;
+    }
+
+    public function getSessionKey(): string
+    {
+        return $this->sessionKey;
     }
 
     public function getUserId(): ?string
