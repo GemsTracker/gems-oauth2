@@ -81,7 +81,7 @@ class UserRepository extends DoctrineEntityRepositoryAbstract implements UserRep
             ->from(User::class, 'user')
             ->innerJoin(Staff::class, 'staff', Join::WITH, 'user.login = staff.loginName AND user.organizationId = staff.organizationId')
             ->innerJoin(Group::class, 'permissionGroup', Join::WITH, 'staff.group = permissionGroup.id')
-            ->select(['user', 'permissionGroup.roleName']);
+            ->select(['user', 'permissionGroup.roleName', 'staff.id AS staffId']);
 
         if (is_int($username)) {
             $queryBuilder
@@ -102,9 +102,10 @@ class UserRepository extends DoctrineEntityRepositoryAbstract implements UserRep
         }
         $userData = $queryBuilder->getQuery()->getOneOrNullResult();
 
-        if (is_array($userData) && isset($userData[0], $userData['roleName'])) {
+        if (is_array($userData) && isset($userData[0], $userData['roleName'], $userData['staffId'])) {
             $user = $userData[0];
             $user->setRoleName($userData['roleName']);
+            $user->setUserId($userData['staffId']);
 
             return $user;
         }

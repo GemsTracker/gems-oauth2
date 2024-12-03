@@ -40,6 +40,8 @@ class User implements UserEntityInterface, EntityInterface
 
     protected string|null $roleName = null;
 
+    protected string|null $userId = null;
+
     public function getIdentifier(): int
     {
         return $this->id;
@@ -71,6 +73,11 @@ class User implements UserEntityInterface, EntityInterface
         return $this->organizationId;
     }
 
+    public function getUserId(): ?string
+    {
+        return $this->userId;
+    }
+
     public function isMfaEnabled(): bool
     {
         return $this->mfaEnabled;
@@ -92,5 +99,10 @@ class User implements UserEntityInterface, EntityInterface
             return password_verify($password, $this->password->getPassword());
         }
         return false;
+    }
+
+    public function setUserId(?string $userId): void
+    {
+        $this->userId = $userId;
     }
 }
