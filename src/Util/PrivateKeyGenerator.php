@@ -36,7 +36,10 @@ class PrivateKeyGenerator
         $resource = openssl_pkey_new($config);
 
         if (! $resource) {
-            die(openssl_error_string());
+            if (! $configFile) {
+                echo "No Open SSL config set in environment by OPENSSL_CONF.\n";
+            }
+            die(openssl_error_string() . "\n");
         }
         $privateKey = null;
 
