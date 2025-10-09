@@ -32,7 +32,7 @@ class ResourceServerFactory implements FactoryInterface
         $keyRepository = new KeyRepository();
         $certificates = $keyRepository->getCertificates($config, false);
 
-        $keyPermissionsCheck = $config['certificates']['keyPermissionsCheck'] ?? null;
+        $keyPermissionsCheck = $config['certificates']['keyPermissionsCheck'] ?? (PHP_OS_FAMILY != 'Windows');
 
         $publicKey = new CryptKey($certificates['public'], $certificates['passPhrase'], $keyPermissionsCheck);
 
