@@ -34,8 +34,9 @@ class RefreshTokenRepository extends DoctrineEntityRepositoryAbstract implements
     public function persistNewRefreshToken(RefreshTokenEntityInterface $refreshTokenEntity): void
     {
         try {
-            $this->_em->persist($refreshTokenEntity);
-            $this->_em->flush();
+            $entityManager = $this->getEntityManager();
+            $entityManager->persist($refreshTokenEntity);
+            $entityManager->flush();
         } catch (ORMException $e) {
             throw new AuthException('Refresh token could not be saved');
         }
@@ -53,8 +54,9 @@ class RefreshTokenRepository extends DoctrineEntityRepositoryAbstract implements
         $refreshToken->setRevoked(true);
 
         try {
-            $this->_em->persist($refreshToken);
-            $this->_em->flush();
+            $entityManager = $this->getEntityManager();
+            $entityManager->persist($refreshToken);
+            $entityManager->flush();
         } catch (ORMException $e) {
             throw new AuthException('Refresh token could not be revoked');
         }

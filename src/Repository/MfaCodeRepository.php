@@ -40,8 +40,9 @@ class MfaCodeRepository extends DoctrineEntityRepositoryAbstract implements MfaC
     public function persistNewMfaCode(MfaCodeEntityInterface $mfaCodeEntity): void
     {
         try {
-            $this->_em->persist($mfaCodeEntity);
-            $this->_em->flush();
+            $entityManager = $this->getEntityManager();
+            $entityManager->persist($mfaCodeEntity);
+            $entityManager->flush();
         } catch (ORMException $e) {
             throw new AuthException('Mfa code could not be saved');
         }
@@ -62,8 +63,9 @@ class MfaCodeRepository extends DoctrineEntityRepositoryAbstract implements MfaC
         $mfaCode->setRevoked(true);
 
         try {
-            $this->_em->persist($mfaCode);
-            $this->_em->flush();
+            $entityManager = $this->getEntityManager();
+            $entityManager->persist($mfaCode);
+            $entityManager->flush();
         } catch (ORMException $e) {
             throw new AuthException('Mfa code could not be revoked');
         }

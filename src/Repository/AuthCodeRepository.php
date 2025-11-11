@@ -42,8 +42,9 @@ class AuthCodeRepository extends DoctrineEntityRepositoryAbstract implements Aut
     public function persistNewAuthCode(AuthCodeEntityInterface $authCodeEntity): void
     {
         try {
-            $this->_em->persist($authCodeEntity);
-            $this->_em->flush();
+            $entityManager = $this->getEntityManager();
+            $entityManager->persist($authCodeEntity);
+            $entityManager->flush();
         } catch (ORMException $e) {
             throw new AuthException('Auth code could not be saved');
         }
@@ -68,8 +69,9 @@ class AuthCodeRepository extends DoctrineEntityRepositoryAbstract implements Aut
         $authCode->setRevoked(true);
 
         try {
-            $this->_em->persist($authCode);
-            $this->_em->flush();
+            $entityManager = $this->getEntityManager();
+            $entityManager->persist($authCode);
+            $entityManager->flush();
         } catch (ORMException $e) {
             throw new AuthException('Auth code could not be revoked');
         }

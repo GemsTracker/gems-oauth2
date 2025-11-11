@@ -61,8 +61,9 @@ class AccessTokenRepository extends DoctrineEntityRepositoryAbstract implements 
     public function persistNewAccessToken(AccessTokenEntityInterface $accessTokenEntity): void
     {
         try {
-            $this->_em->persist($accessTokenEntity);
-            $this->_em->flush();
+            $entityManager = $this->getEntityManager();
+            $entityManager->persist($accessTokenEntity);
+            $entityManager->flush();
         } catch (ORMException $e) {
             throw new AuthException('Access token could not be saved');
         }
@@ -81,8 +82,9 @@ class AccessTokenRepository extends DoctrineEntityRepositoryAbstract implements 
         $accessToken->setRevoked(true);
 
         try {
-            $this->_em->persist($accessToken);
-            $this->_em->flush();
+            $entityManager = $this->getEntityManager();
+            $entityManager->persist($accessToken);
+            $entityManager->flush();
         } catch (ORMException $e) {
             throw new AuthException('Access token could not be revoked');
         }

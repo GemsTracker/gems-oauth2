@@ -75,7 +75,8 @@ class UserRepository extends DoctrineEntityRepositoryAbstract implements UserRep
 
     public function getAuthUserByIdentifier(string|int $username): User
     {
-        $queryBuilder = $this->_em->createQueryBuilder();
+        $entityManager = $this->getEntityManager();
+        $queryBuilder = $entityManager->createQueryBuilder();
 
         $queryBuilder
             ->from(User::class, 'user')
