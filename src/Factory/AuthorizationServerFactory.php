@@ -24,7 +24,7 @@ class AuthorizationServerFactory implements FactoryInterface
      * @param array|null $options
      * @return AuthorizationServer
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): AuthorizationServer
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): AuthorizationServer
     {
         $config = $container->get('config');
         $keyRepository = new KeyRepository();

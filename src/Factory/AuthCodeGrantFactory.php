@@ -19,7 +19,7 @@ class AuthCodeGrantFactory implements FactoryInterface
      * @return AuthCodeGrant
      * @throws \Exception
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): AuthCodeGrant
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): AuthCodeGrant
     {
         $authCodeRepository = $container->get(AuthCodeRepositoryInterface::class);
         $refreshTokenRepository = $container->get(RefreshTokenRepositoryInterface::class);

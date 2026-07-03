@@ -15,7 +15,7 @@ use Psr\Container\ContainerInterface;
 
 class PasswordGrantFactory implements FactoryInterface
 {
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         $userRepository = $container->get(UserRepositoryInterface::class);
 

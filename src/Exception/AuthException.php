@@ -11,7 +11,7 @@ class AuthException extends \Exception
     protected ?string $description;
 
 
-    public function __construct($message = "", $description = "", $code = 0, \Throwable $previous = null)
+    public function __construct($message = "", $description = "", $code = 0, ?\Throwable $previous = null)
     {
         $this->description = $description;
         parent::__construct($message, $code, $previous);

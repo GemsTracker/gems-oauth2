@@ -23,7 +23,7 @@ class ResourceServerFactory implements FactoryInterface
      * @param array|null $options
      * @return ResourceServer|object
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         $accessTokenRepository = $container->get(AccessTokenRepositoryInterface::class);
 
